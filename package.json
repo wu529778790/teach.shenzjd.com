@@ -1,7 +1,7 @@
 {
-  "name": "vite-vue-starter",
+  "name": "puppeteer",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server/main.js -w src/server",
