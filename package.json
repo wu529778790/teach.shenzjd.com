@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "express": "^4.18.2",
-    "vite-express": "*",
+    "vite-express": "0.16.0",
     "vue": "^3.3.8",
     "cross-env": "^7.0.3"
   },
