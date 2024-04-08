@@ -39,7 +39,7 @@ const render = async (req, res, handleFetchPicoImageError) => {
         type: type === "jpg" ? "jpeg" : type,
         quality: type === "png" ? undefined : Number(quality),
         omitBackground: omitBackground === "true",
-        fullPage: fullPage === "true",
+        fullPage: fullPage === true,
       });
     } catch (error) {
       throw error;

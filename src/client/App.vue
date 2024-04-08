@@ -3,57 +3,55 @@
     <div class="title">puppeteer参数</div>
     <div class="main">
       <div class="params">
-        <div class="form-container">
-          <div class="form-row">
-            <label for="width">宽度</label>
-            <input type="text" id="width" v-model="params.width" />
-          </div>
-          <div class="form-row">
-            <label for="height">高度</label>
-            <input type="text" id="height" v-model="params.height" />
-          </div>
-          <div class="form-row">
-            <label for="ratio">分辨率</label>
-            <input type="text" id="ratio" v-model="params.ratio" />
-          </div>
-          <div class="form-row">
-            <label for="type">类型</label>
-            <input type="text" id="type" v-model="params.type" />
-          </div>
-          <div class="form-row">
-            <label for="filename">文件名</label>
-            <input type="text" id="filename" v-model="params.filename" />
-          </div>
-          <div class="form-row">
-            <label for="waitUntil">等待</label>
-            <input type="text" id="waitUntil" v-model="params.waitUntil" />
-          </div>
-          <div class="form-row">
-            <label for="quality">品质</label>
-            <input type="text" id="quality" v-model="params.quality" />
-          </div>
-          <div class="form-row">
-            <label for="omitBackground">去除背景</label>
-            <input
-              type="checkbox"
-              id="omitBackground"
-              v-model="params.omitBackground"
-            />
-          </div>
-          <div class="form-row">
-            <label for="fullPage">全屏</label>
-            <input type="checkbox" id="fullPage" v-model="params.fullPage" />
-          </div>
-          <div class="form-row">
-            <label for="url">URL</label>
-            <input type="text" id="url" v-model="params.url" />
-          </div>
-          <div class="form-row">
-            <label for="html">HTML</label>
-            <textarea id="html" v-model="params.html"></textarea>
-          </div>
-          <button @click="screenshot">截图</button>
+        <div class="form-row">
+          <label for="width">宽度</label>
+          <input type="text" id="width" v-model="params.width" />
         </div>
+        <div class="form-row">
+          <label for="height">高度</label>
+          <input type="text" id="height" v-model="params.height" />
+        </div>
+        <div class="form-row">
+          <label for="ratio">分辨率</label>
+          <input type="text" id="ratio" v-model="params.ratio" />
+        </div>
+        <div class="form-row">
+          <label for="type">类型</label>
+          <input type="text" id="type" v-model="params.type" />
+        </div>
+        <div class="form-row">
+          <label for="filename">文件名</label>
+          <input type="text" id="filename" v-model="params.filename" />
+        </div>
+        <div class="form-row">
+          <label for="waitUntil">等待</label>
+          <input type="text" id="waitUntil" v-model="params.waitUntil" />
+        </div>
+        <div class="form-row">
+          <label for="quality">品质</label>
+          <input type="text" id="quality" v-model="params.quality" />
+        </div>
+        <div class="form-row">
+          <label for="omitBackground">去除背景</label>
+          <input
+            type="checkbox"
+            id="omitBackground"
+            v-model="params.omitBackground"
+          />
+        </div>
+        <div class="form-row">
+          <label for="fullPage">全屏</label>
+          <input type="checkbox" id="fullPage" v-model="params.fullPage" />
+        </div>
+        <div class="form-row">
+          <label for="url">URL</label>
+          <input type="text" id="url" v-model="params.url" />
+        </div>
+        <div class="form-row">
+          <label for="html">HTML</label>
+          <textarea id="html" v-model="params.html"></textarea>
+        </div>
+        <button @click="screenshot">截图</button>
       </div>
       <div class="img-container">
         <img :src="imgUrl" class="img" />
@@ -116,6 +114,9 @@ function screenshot() {
     .img-container {
       flex: 1;
       border: 1px solid #eee;
+      .img {
+        width: 100%;
+      }
     }
   }
 }
