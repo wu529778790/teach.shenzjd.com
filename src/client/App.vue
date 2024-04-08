@@ -1,7 +1,9 @@
 <script setup>
-// 请求本地的/puppeteer，post请求到/puppeteer/screenshot
 fetch("/puppeteer/screenshot", {
   method: "POST",
+  body: JSON.stringify({
+    url: "https://www.baidu.com",
+  }),
 });
 </script>
 

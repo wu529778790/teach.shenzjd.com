@@ -1,16 +1,25 @@
 import puppeteer from "puppeteer";
 import genericPool from "generic-pool";
 
+/**
+ * Creates a Puppeteer pool with specified configurations.
+ *
+ * @param {Object} options - Object containing pool configurations.
+ * @param {number} options.max - pool 的最大容量
+ * @param {number} options.min - pool 的最小容量
+ * @param {number} options.idleTimeoutMillis - 连接在池中保持空闲而不被回收的最小时间值
+ * @param {number} options.maxUses - 最大使用数
+ * @param {boolean} options.testOnBorrow - 在连接池交付实例前是否先经过 factory.validate 测试
+ * @param {Object} options.puppeteerArgs - Arguments for launching Puppeteer instances.
+ * @param {Function} options.validator - Function to validate the instance.
+ * @param {Object} options.otherConfig - Additional configurations.
+ * @return {Object} A pool of Puppeteer instances.
+ */
 const createPuppeteerPool = ({
-  // pool 的最大容量
   max = 10,
-  // pool 的最小容量
   min = 2,
-  // 连接在池中保持空闲而不被回收的最小时间值
   idleTimeoutMillis = 30000,
-  // 最大使用数
   maxUses = 50,
-  // 在连接池交付实例前是否先经过 factory.validate 测试
   testOnBorrow = true,
   puppeteerArgs = {},
   validator = () => Promise.resolve(true),

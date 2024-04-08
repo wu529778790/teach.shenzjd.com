@@ -3,7 +3,7 @@ import config from "./config.js";
 
 const pool = createPuppeteerPool({
   puppeteerArgs: {
-    args: config.browserArgs,
+    // args: config.browserArgs,
   },
 });
 
