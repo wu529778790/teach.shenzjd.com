@@ -1,6 +1,6 @@
 <template>
   <div class="puppeteer">
-    <div class="title">puppeteer参数</div>
+    <div class="title">puppeteer截图</div>
     <div class="main">
       <div class="params">
         <div class="form-row">
@@ -24,8 +24,13 @@
           <input type="text" id="filename" v-model="params.filename" />
         </div>
         <div class="form-row">
-          <label for="waitUntil">等待</label>
-          <input type="text" id="waitUntil" v-model="params.waitUntil" />
+          <label for="waitUntil">waitUntil</label>
+          <select id="waitUntil" v-model="params.waitUntil">
+            <option value="networkidle0">networkidle0</option>
+            <option value="networkidle2">networkidle2</option>
+            <option value="domcontentloaded">domcontentloaded</option>
+            <option value="load">load</option>
+          </select>
         </div>
         <div class="form-row">
           <label for="quality">品质</label>
@@ -72,7 +77,7 @@ const params = ref({
   ratio: 2,
   type: "png",
   filename: "poster",
-  waitUntil: "domcontentloaded",
+  waitUntil: "networkidle0",
   quality: 100,
   omitBackground: false,
   fullPage: false,
@@ -115,7 +120,7 @@ function screenshot() {
       flex: 1;
       border: 1px solid #eee;
       .img {
-        width: 100%;
+        max-width: 100%;
       }
     }
   }
