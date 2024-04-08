@@ -4,6 +4,9 @@ import puppeteer from "./puppeteer/index.js";
 
 const app = express();
 
+// 解析此应用程序的 JSON 正文。确保在路由处理程序之前放置 app.use(express.json())
+app.use(express.json());
+
 app.use("/puppeteer", puppeteer);
 
 ViteExpress.listen(app, 3000, () =>
