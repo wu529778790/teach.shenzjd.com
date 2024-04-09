@@ -9,6 +9,6 @@ app.use(express.json());
 
 app.use("/puppeteer", puppeteer);
 
-ViteExpress.listen(app, 3000, () =>
-  console.log("Server is listening on port 3000...")
-);
+ViteExpress.listen(app, 3000, () => {
+  console.log("Click here to open the browser: http://localhost:3000");
+});
