@@ -1,5 +1,6 @@
 // 获取连接池
 import pool from "./genericPool/index.js";
+import { KnownDevices } from "puppeteer";
 
 const renderScreenshot = async (req, res, handleFetchPicoImageError) => {
   // 使用连接池资源
@@ -7,9 +8,10 @@ const renderScreenshot = async (req, res, handleFetchPicoImageError) => {
     // 打开新的页面
     const page = await browser.newPage();
     const {
+      device,
       width = 300,
       height = 480,
-      ratio: deviceScaleFactor = 2,
+      deviceScaleFactor = 1,
       type = "png",
       filename = "poster",
       waitUntil = "domcontentloaded",
@@ -21,15 +23,15 @@ const renderScreenshot = async (req, res, handleFetchPicoImageError) => {
     } = req.body;
     let image;
     try {
-      // 设置浏览器视口
-      await page.setViewport({
-        width: Number(width),
-        height: Number(height),
-        deviceScaleFactor: Number(deviceScaleFactor),
-      });
-      if (html?.length > 1.25e6) {
-        throw new Error("image size out of limits, at most 1 MB");
+      if (!KnownDevices[device]) {
+        // 设置浏览器视口
+        await page.setViewport({
+          width: Number(width),
+          height: Number(height),
+          deviceScaleFactor: Number(deviceScaleFactor),
+        });
       }
+      await page.emulate(KnownDevices[device]);
       // 访问 URL 页面
       await page.goto(url || `data:text/html,${html}`, {
         waitUntil: waitUntil.split(","),
