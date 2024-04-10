@@ -1,73 +1,53 @@
 <template>
-  <div class="puppeteer">
-    <div class="title">puppeteer截图</div>
-    <div class="main">
-      <div class="params">
-        <div class="form-row">
-          <label for="width">宽度</label>
-          <input type="text" id="width" v-model="params.width" />
-        </div>
-        <div class="form-row">
-          <label for="height">高度</label>
-          <input type="text" id="height" v-model="params.height" />
-        </div>
-        <div class="form-row">
-          <label for="ratio">分辨率</label>
-          <input type="text" id="ratio" v-model="params.ratio" />
-        </div>
-        <div class="form-row">
-          <label for="type">类型</label>
-          <select id="type" v-model="params.type">
-            <option value="png">png</option>
-            <option value="jpeg">jpeg</option>
-            <option value="webp">webp</option>
-            <option value="avif">avif</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label for="filename">文件名</label>
-          <input type="text" id="filename" v-model="params.filename" />
-        </div>
-        <div class="form-row">
-          <label for="waitUntil">waitUntil</label>
-          <select id="waitUntil" v-model="params.waitUntil">
-            <option value="networkidle0">networkidle0</option>
-            <option value="networkidle2">networkidle2</option>
-            <option value="domcontentloaded">domcontentloaded</option>
-            <option value="load">load</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <label for="quality">品质</label>
-          <input type="text" id="quality" v-model="params.quality" />
-        </div>
-        <div class="form-row">
-          <label for="omitBackground">去除背景</label>
-          <input
-            type="checkbox"
-            id="omitBackground"
-            v-model="params.omitBackground"
-          />
-        </div>
-        <div class="form-row">
-          <label for="fullPage">全屏</label>
-          <input type="checkbox" id="fullPage" v-model="params.fullPage" />
-        </div>
-        <div class="form-row">
-          <label for="url">URL</label>
-          <input type="text" id="url" v-model="params.url" />
-        </div>
-        <div class="form-row">
-          <label for="html">HTML</label>
-          <textarea id="html" v-model="params.html"></textarea>
-        </div>
-        <button @click="screenshot">截图</button>
-      </div>
-      <div class="img-container">
-        <img :src="imgUrl" class="img" />
-      </div>
-    </div>
-  </div>
+  <a-form class="left-box" layout="inline" :model="params">
+    <a-form-item label="宽度">
+      <a-input v-model:value="params.width" />
+    </a-form-item>
+    <a-form-item label="高度">
+      <a-input v-model:value="params.height" />
+    </a-form-item>
+    <a-form-item label="分辨率">
+      <a-input v-model:value="params.ratio" />
+    </a-form-item>
+    <a-form-item label="类型">
+      <a-select v-model:value="params.type">
+        <a-select-option value="png">png</a-select-option>
+        <a-select-option value="jpeg">jpeg</a-select-option>
+        <a-select-option value="webp">webp</a-select-option>
+        <a-select-option value="avif">avif</a-select-option>
+      </a-select>
+    </a-form-item>
+    <a-form-item label="文件名">
+      <a-input v-model:value="params.filename" />
+    </a-form-item>
+    <a-form-item label="waitUntil">
+      <a-select v-model:value="params.waitUntil">
+        <a-select-option value="networkidle0">networkidle0</a-select-option>
+        <a-select-option value="networkidle2">networkidle2</a-select-option>
+        <a-select-option value="domcontentloaded">
+          domcontentloaded
+        </a-select-option>
+        <a-select-option value="load">load</a-select-option>
+      </a-select>
+    </a-form-item>
+    <a-form-item label="品质">
+      <a-input v-model:value="params.quality" />
+    </a-form-item>
+    <a-form-item label="去除背景">
+      <a-checkbox v-model:value="params.omitBackground">去除背景</a-checkbox>
+    </a-form-item>
+    <a-form-item label="全屏">
+      <a-checkbox v-model:value="params.fullPage">全屏</a-checkbox>
+    </a-form-item>
+    <a-form-item label="URL">
+      <a-input v-model:value="params.url" />
+    </a-form-item>
+    <a-form-item label="HTML">
+      <a-textarea v-model:value="params.html"></a-textarea>
+    </a-form-item>
+    <a-button type="primary" @click="screenshot">截图</a-button>
+  </a-form>
+  <a-image :wrapper-col="{ span: 8 }" :src="imgUrl" class="img" />
 </template>
 
 <script setup>
@@ -108,62 +88,12 @@ function screenshot() {
 </script>
 
 <style lang="scss" scoped>
-.puppeteer {
-  .title {
-    font-size: 20px;
-    font-weight: 700;
-    text-align: center;
-    margin: 16px 0;
-  }
-  .main {
-    display: flex;
-    .params {
-      width: 300px;
-      padding: 16px;
-    }
-    .img-container {
-      flex: 1;
-      border: 1px solid #eee;
-      .img {
-        max-width: 100%;
-      }
-    }
-  }
-}
-
-.form-row {
-  margin-bottom: 10px;
+.screenshot {
   display: flex;
-}
-
-label {
-  margin-right: 10px;
-  font-weight: bold;
-  width: 70px;
-  user-select: none;
-}
-
-input,
-textarea {
-  padding: 5px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-}
-
-textarea {
-  width: 170px;
-}
-
-button {
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #0056b3;
+  .left-box {
+  }
+  .right-box {
+    margin-left: auto;
+  }
 }
 </style>
