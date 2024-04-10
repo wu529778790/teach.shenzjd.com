@@ -91,7 +91,7 @@ const params = ref({
 
 function screenshot() {
   axios({
-    url: "/puppeteer/screenshot",
+    url: "/api/puppeteer/screenshot",
     method: "POST",
     responseType: "arraybuffer",
     data: params.value,
