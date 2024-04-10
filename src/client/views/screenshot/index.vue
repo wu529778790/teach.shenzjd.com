@@ -34,10 +34,10 @@
       <a-input v-model:value="params.quality" />
     </a-form-item>
     <a-form-item label="去除背景">
-      <a-checkbox v-model:value="params.omitBackground">去除背景</a-checkbox>
+      <a-checkbox v-model="params.omitBackground"></a-checkbox>
     </a-form-item>
     <a-form-item label="全屏">
-      <a-checkbox v-model:value="params.fullPage">全屏</a-checkbox>
+      <a-checkbox v-model="params.fullPage"></a-checkbox>
     </a-form-item>
     <a-form-item label="URL">
       <a-input v-model:value="params.url" />
@@ -45,9 +45,11 @@
     <a-form-item label="HTML">
       <a-textarea v-model:value="params.html"></a-textarea>
     </a-form-item>
-    <a-button type="primary" @click="screenshot">截图</a-button>
+    <a-form-item class="button">
+      <a-button type="primary" @click="screenshot">截图</a-button>
+    </a-form-item>
   </a-form>
-  <a-image :wrapper-col="{ span: 8 }" :src="imgUrl" class="img" />
+  <a-image :src="imgUrl" />
 </template>
 
 <script setup>
@@ -62,7 +64,7 @@ const params = ref({
   ratio: 1,
   type: "png",
   filename: "poster",
-  waitUntil: "networkidle0",
+  waitUntil: "networkidle2",
   quality: 100,
   omitBackground: false,
   fullPage: false,
@@ -88,12 +90,7 @@ function screenshot() {
 </script>
 
 <style lang="scss" scoped>
-.screenshot {
-  display: flex;
-  .left-box {
-  }
-  .right-box {
-    margin-left: auto;
-  }
+.button {
+  margin-left: auto;
 }
 </style>

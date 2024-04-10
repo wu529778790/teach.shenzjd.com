@@ -6,10 +6,13 @@ export const router = createRouter({
     {
       path: "/",
       redirect: "/screenshot",
-    },
-    {
-      path: "/screenshot",
-      component: () => import("@/views/screenshot/index.vue"),
+      component: () => import("./Layout/index.vue"),
+      children: [
+        {
+          path: "/screenshot",
+          component: () => import("@/views/screenshot/index.vue"),
+        },
+      ],
     },
   ],
 });
