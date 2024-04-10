@@ -17,7 +17,7 @@ import genericPool from "generic-pool";
  */
 const createPuppeteerPool = ({
   max = 10,
-  min = 2,
+  min = 1,
   idleTimeoutMillis = 30000,
   maxUses = 50,
   testOnBorrow = true,

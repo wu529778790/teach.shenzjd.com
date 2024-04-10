@@ -1,7 +1,7 @@
 // 获取连接池
-import pool from "./pool.js";
+import pool from "./genericPool/index.js";
 
-const render = async (req, res, handleFetchPicoImageError) => {
+const renderScreenshot = async (req, res) => {
   // 使用连接池资源
   return await pool.use(async (browser) => {
     // 打开新的页面
@@ -19,7 +19,7 @@ const render = async (req, res, handleFetchPicoImageError) => {
       html,
       url,
     } = req.body;
-    let image;
+    let pdf;
     try {
       // 设置浏览器视口
       await page.setViewport({
@@ -28,27 +28,25 @@ const render = async (req, res, handleFetchPicoImageError) => {
         deviceScaleFactor: Number(deviceScaleFactor),
       });
       if (html?.length > 1.25e6) {
-        throw new Error("image size out of limits, at most 1 MB");
+        throw new Error("pdf size out of limits, at most 1 MB");
       }
       // 访问 URL 页面
       await page.goto(url || `data:text/html,${html}`, {
         waitUntil: waitUntil.split(","),
       });
-      // 进行截图
-      image = await page.screenshot({
-        type: type === "jpg" ? "jpeg" : type,
-        quality: type === "png" ? undefined : Number(quality),
-        omitBackground: omitBackground === "true",
-        fullPage: fullPage === true,
+      // 生成pdf
+      pdf = await page.pdf({
+        format: "A4",
       });
     } catch (error) {
       throw error;
+    } finally {
+      await page.close();
     }
-    res.set("Content-Type", `image/${type}`);
+    res.set("Content-Type", "application/pdf", "Content-length", pdf.length);
     res.set("Content-Disposition", `inline; filename=${filename}.${type}`);
-    await page.close();
-    return image;
+    return pdf;
   });
 };
 
-export default render;
+export default renderScreenshot;
