@@ -65,6 +65,7 @@ const handleClick = ({ key }) => {
   }
   .content {
     padding: 16px;
+    overflow: auto;
   }
 }
 </style>
