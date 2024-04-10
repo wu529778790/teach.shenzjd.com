@@ -2,7 +2,7 @@
 import pool from "./genericPool/index.js";
 import { KnownDevices } from "puppeteer";
 
-const renderScreenshot = async (req, res, handleFetchPicoImageError) => {
+export default async (req, res) => {
   // 使用连接池资源
   return await pool.use(async (browser) => {
     // 打开新的页面
@@ -21,7 +21,7 @@ const renderScreenshot = async (req, res, handleFetchPicoImageError) => {
       html,
       url,
     } = req.body;
-    let image;
+    let data;
     try {
       if (!KnownDevices[device]) {
         // 设置浏览器视口
@@ -37,7 +37,7 @@ const renderScreenshot = async (req, res, handleFetchPicoImageError) => {
         waitUntil: waitUntil.split(","),
       });
       // 进行截图
-      image = await page.screenshot({
+      data = await page.screenshot({
         type: type === "jpg" ? "jpeg" : type,
         quality: type === "png" ? undefined : Number(quality),
         omitBackground: omitBackground === "true",
@@ -49,8 +49,6 @@ const renderScreenshot = async (req, res, handleFetchPicoImageError) => {
     res.set("Content-Type", `image/${type}`);
     res.set("Content-Disposition", `inline; filename=${filename}.${type}`);
     await page.close();
-    return image;
+    return data;
   });
 };
-
-export default renderScreenshot;

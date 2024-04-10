@@ -5,7 +5,7 @@ import { KnownDevices } from "puppeteer";
 
 const router = express.Router();
 
-// 返回设备
+// 返回设备列表
 router.get("/devices", (req, res) => {
   res.send(Object.values(KnownDevices));
 });

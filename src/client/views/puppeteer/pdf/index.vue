@@ -7,14 +7,32 @@
       :colon="true"
       :labelCol="{ style: 'width: 100px' }"
     >
+      <a-form-item label="设备">
+        <a-select
+          v-model:value="params.device"
+          @change="selectDevice"
+          allowClear
+        >
+          <a-select-option
+            v-for="item in KnownDevices"
+            :key="item.name"
+            :value="item.name"
+          >
+            {{ item.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-item>
       <a-form-item label="宽度">
-        <a-input v-model:value="params.width" />
+        <a-input v-model:value="params.width" :disabled="params.device" />
       </a-form-item>
       <a-form-item label="高度">
-        <a-input v-model:value="params.height" />
+        <a-input v-model:value="params.height" :disabled="params.device" />
       </a-form-item>
-      <a-form-item label="分辨率">
-        <a-input v-model:value="params.ratio" />
+      <a-form-item label="设备比例">
+        <a-input
+          v-model:value="params.deviceScaleFactor"
+          :disabled="params.device"
+        />
       </a-form-item>
       <a-form-item label="类型">
         <a-select v-model:value="params.type">
@@ -61,21 +79,42 @@
       <a-form-item label="HTML">
         <a-textarea v-model:value="params.html" :rows="10" />
       </a-form-item>
-      <a-form-item label="截图">
-        <a-button type="primary" @click="pdf">提交</a-button>
+      <a-form-item label="生成PDF">
+        <a-button type="primary" @click="createPdf">提交</a-button>
       </a-form-item>
     </a-form>
   </div>
+  <a-image :src="imgUrl" />
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { onBeforeMount, ref } from "vue";
 import axios from "axios";
 
+const KnownDevices = ref([]);
+// 获取设备信息
+function getDeviceInfo() {
+  axios
+    .get("/api/puppeteer/devices")
+    .then((response) => {
+      KnownDevices.value = response.data;
+    })
+    .catch((error) => {
+      console.error("Error fetching device info:", error);
+    });
+}
+
+onBeforeMount(() => {
+  getDeviceInfo();
+});
+
+const imgUrl = ref("");
+
 const params = ref({
-  width: 1920,
-  height: 1080,
-  ratio: 1,
+  device: "iPad Pro",
+  width: 1366,
+  height: 1024,
+  deviceScaleFactor: 2,
   type: "png",
   filename: "poster",
   waitUntil: "networkidle2",
@@ -86,7 +125,7 @@ const params = ref({
   html: "<h1>Hello, World!</h1>",
 });
 
-function pdf() {
+function createPdf() {
   axios({
     url: "/api/puppeteer/pdf",
     method: "POST",
@@ -94,17 +133,21 @@ function pdf() {
     data: params.value,
   })
     .then((response) => {
-      const data = new Blob([response.data], { type: "application/pdf" });
-      // pdf下载
-      const url = URL.createObjectURL(data);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "pdf.pdf";
-      link.click();
+      const image = new Blob([response.data], { type: "image/png" });
+      imgUrl.value = URL.createObjectURL(image);
     })
     .catch((error) => {
-      console.error("Error fetching pdf:", error);
+      console.error("Error createPdf:", error);
     });
+}
+
+function selectDevice(item) {
+  const device = KnownDevices.value.find((device) => device.name === item);
+  if (device) {
+    params.value.width = device.viewport.width;
+    params.value.height = device.viewport.height;
+    params.value.deviceScaleFactor = device.viewport.deviceScaleFactor;
+  }
 }
 </script>
 
