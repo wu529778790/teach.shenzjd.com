@@ -2,13 +2,7 @@
   <a-layout class="layout">
     <a-layout-sider breakpoint="xl" collapsed-width="0">
       <div class="logo">神族九帝</div>
-      <a-menu
-        v-model:selectedKeys="currentKey"
-        mode="inline"
-        theme="dark"
-        :items="items"
-        @click="handleClick"
-      />
+      <a-menu v-model:selectedKeys="currentKey" mode="inline" theme="dark" :items="items" @click="handleClick" />
     </a-layout-sider>
     <a-layout-content class="content">
       <router-view />
@@ -18,7 +12,7 @@
 
 <script setup>
 import { ref, h } from "vue";
-import { IeOutlined } from "@ant-design/icons-vue";
+import { IeOutlined, ToolOutlined } from "@ant-design/icons-vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -42,6 +36,19 @@ const items = ref([
       },
     ],
   },
+  {
+    key: "/tools",
+    icon: () => h(ToolOutlined),
+    label: "工具",
+    title: "工具",
+    children: [
+      {
+        key: "/tools/xiaohongshu",
+        label: "小红书",
+        title: "小红书",
+      }
+    ]
+  }
 ]);
 const currentKey = ref(["puppeteer"]);
 
@@ -53,6 +60,7 @@ const handleClick = ({ key }) => {
 <style lang="scss" scoped>
 .layout {
   height: 100%;
+
   .logo {
     height: 40px;
     display: flex;
@@ -63,6 +71,7 @@ const handleClick = ({ key }) => {
     font-weight: 700;
     background-color: black;
   }
+
   .content {
     padding: 16px;
     overflow: auto;

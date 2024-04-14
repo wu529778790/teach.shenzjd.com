@@ -22,6 +22,16 @@ export const router = createRouter({
             },
           ],
         },
+        {
+          path: "/tools",
+          redirect: "/tools/xiaohongshu",
+          children: [
+            {
+              path: "xiaohongshu",
+              component: () => import("@/views/tools/xiaohongshu/index.vue"),
+            }
+          ]
+        }
       ],
     },
   ],

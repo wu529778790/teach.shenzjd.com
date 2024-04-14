@@ -8,8 +8,17 @@ import { ref, watch } from 'vue';
 import tinymce from 'tinymce/tinymce';
 import Editor from '@tinymce/tinymce-vue';
 
+defineOptions({
+    name: 'Tinymce'
+})
+
 // 指定tinymce文件加载的位置
 tinymce.baseURL = 'tinymce';
+
+const props = defineProps({
+    modelValue: String,
+    init: Object
+})
 
 const init = {
     license_key: 'gpl',
@@ -18,12 +27,9 @@ const init = {
     placeholder: '在这里输入文字',
     menubar: false,
     elementpath: false,
-
+    ...props.init
 }
 
-const props = defineProps({
-    modelValue: String
-})
 const innerValue = ref(props.modelValue)
 const emit = defineEmits(['update:modelValue'])
 
