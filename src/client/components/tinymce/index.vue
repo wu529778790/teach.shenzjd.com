@@ -1,0 +1,39 @@
+<template>
+    <div class="tinymce-box">
+        <Editor :init="init" v-model="innerValue" />
+    </div>
+</template>
+<script setup>
+import { ref, watch } from 'vue';
+import tinymce from 'tinymce/tinymce';
+import Editor from '@tinymce/tinymce-vue';
+
+// 指定tinymce文件加载的位置
+tinymce.baseURL = 'tinymce';
+
+const init = {
+    license_key: 'gpl',
+    language_url: '/tinymce/langs/zh_CN.js',
+    language: 'zh_CN',
+    placeholder: '在这里输入文字',
+    menubar: false,
+    elementpath: false,
+
+}
+
+const props = defineProps({
+    modelValue: String
+})
+const innerValue = ref(props.modelValue)
+const emit = defineEmits(['update:modelValue'])
+
+watch(() => innerValue.value, (val) => {
+    emit('update:modelValue', val)
+})
+</script>
+
+<style lang="scss" scoped>
+.tinymce-box {
+    width: 100%;
+}
+</style>

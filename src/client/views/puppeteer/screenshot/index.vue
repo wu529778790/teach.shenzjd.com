@@ -1,38 +1,21 @@
 <template>
   <div class="params-box">
-    <a-form
-      class="left"
-      :model="params"
-      layout="horizontal"
-      :colon="true"
-      :labelCol="{ style: 'width: 100px' }"
-    >
+    <a-form class="left" :model="params" layout="horizontal" :colon="true" :labelCol="{ style: 'width: 100px' }">
       <a-form-item label="设备">
-        <a-select
-          v-model:value="params.device"
-          @change="selectDevice"
-          allowClear
-        >
-          <a-select-option
-            v-for="item in KnownDevices"
-            :key="item.name"
-            :value="item.name"
-          >
+        <a-select v-model:value="params.device" @change="selectDevice" allowClear>
+          <a-select-option v-for="item in KnownDevices" :key="item.name" :value="item.name">
             {{ item.name }}
           </a-select-option>
         </a-select>
       </a-form-item>
       <a-form-item label="宽度">
-        <a-input v-model:value="params.width" :disabled="params.device" />
+        <a-input v-model:value="params.width" :disabled="Boolean(params.device)" />
       </a-form-item>
       <a-form-item label="高度">
-        <a-input v-model:value="params.height" :disabled="params.device" />
+        <a-input v-model:value="params.height" :disabled="Boolean(params.device)" />
       </a-form-item>
       <a-form-item label="设备比例">
-        <a-input
-          v-model:value="params.deviceScaleFactor"
-          :disabled="params.device"
-        />
+        <a-input v-model:value="params.deviceScaleFactor" :disabled="Boolean(params.device)" />
       </a-form-item>
       <a-form-item label="类型">
         <a-select v-model:value="params.type">
@@ -67,28 +50,27 @@
         </a-form-item>
       </div>
     </a-form>
-    <a-form
-      class="right"
-      :model="params"
-      :labelCol="{ style: 'width: 100px' }"
-      :colon="true"
-    >
+    <a-form class="right" :model="params" :labelCol="{ style: 'width: 100px' }" :colon="true">
       <a-form-item label="URL">
-        <a-input v-model:value="params.url" />
+        <a-input v-model:value="params.url" placeholder="https://www.bilibili.com" />
       </a-form-item>
       <a-form-item label="HTML">
-        <a-textarea v-model:value="params.html" :rows="10" />
+        <Tinymce v-model="params.html" />
       </a-form-item>
       <a-form-item label="截图">
         <a-button type="primary" @click="screenshot">提交</a-button>
       </a-form-item>
     </a-form>
   </div>
-  <a-image :src="imgUrl" />
+  <a-image v-if="imgUrl" :src="imgUrl" :style="{
+    width: params.width + 'px',
+    height: params.height + 'px'
+  }" />
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from "vue";
+import Tinymce from '@/components/tinymce/index.vue';
 import axios from "axios";
 
 const KnownDevices = ref([]);
@@ -111,9 +93,9 @@ onBeforeMount(() => {
 const imgUrl = ref("");
 
 const params = ref({
-  device: "iPad Pro",
-  width: 1366,
-  height: 1024,
+  device: "iPhone 6",
+  width: 375,
+  height: 667,
   deviceScaleFactor: 2,
   type: "png",
   filename: "poster",
@@ -121,7 +103,7 @@ const params = ref({
   quality: 100,
   omitBackground: false,
   fullPage: false,
-  url: "https://www.bilibili.com",
+  url: "",
   html: "<h1>Hello, World!</h1>",
 });
 
@@ -154,9 +136,11 @@ function selectDevice(item) {
 <style lang="scss" scoped>
 .params-box {
   display: flex;
+
   .left {
     width: 300px;
   }
+
   .right {
     flex: 1;
   }
