@@ -62,10 +62,16 @@
       </a-form-item>
     </a-form>
   </div>
-  <a-image v-if="imgUrl" :src="imgUrl" :style="{
-    width: params.width + 'px',
-    height: params.height + 'px'
-  }" />
+  <div class="result">
+    <div v-html="params.html" class="html" :style="{
+      width: params.width + 'px',
+      minHeight: params.height + 'px'
+    }"></div>
+    <a-image v-if="imgUrl" :src="imgUrl" :style="{
+      width: params.width + 'px',
+      height: params.height + 'px'
+    }" />
+  </div>
 </template>
 
 <script setup>
@@ -143,6 +149,17 @@ function selectDevice(item) {
 
   .right {
     flex: 1;
+  }
+}
+
+.result {
+  display: flex;
+  justify-content: space-between;
+
+  .html {
+    background-color: #fff;
+    padding: 20px;
+    line-height: 2;
   }
 }
 </style>
