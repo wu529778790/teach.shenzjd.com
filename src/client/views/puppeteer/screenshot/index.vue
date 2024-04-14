@@ -9,13 +9,13 @@
         </a-select>
       </a-form-item>
       <a-form-item label="宽度">
-        <a-input v-model:value="params.width" :disabled="Boolean(params.device)" />
+        <a-input v-model:value="params.width" />
       </a-form-item>
       <a-form-item label="高度">
-        <a-input v-model:value="params.height" :disabled="Boolean(params.device)" />
+        <a-input v-model:value="params.height" />
       </a-form-item>
       <a-form-item label="设备比例">
-        <a-input v-model:value="params.deviceScaleFactor" :disabled="Boolean(params.device)" />
+        <a-input v-model:value="params.deviceScaleFactor" />
       </a-form-item>
       <a-form-item label="类型">
         <a-select v-model:value="params.type">
