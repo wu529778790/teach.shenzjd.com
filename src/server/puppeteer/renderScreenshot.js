@@ -31,7 +31,9 @@ export default async (req, res) => {
           deviceScaleFactor: Number(deviceScaleFactor),
         });
       }
-      await page.emulate(KnownDevices[device]);
+      if (KnownDevices[device]) {
+        await page.emulate(KnownDevices[device]);
+      }
       // 访问 URL 页面
       await page.goto(url || `data:text/html,${html}`, {
         waitUntil: waitUntil.split(","),

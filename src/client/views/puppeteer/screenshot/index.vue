@@ -9,13 +9,13 @@
         </a-select>
       </a-form-item>
       <a-form-item label="宽度">
-        <a-input v-model:value="params.width" />
+        <a-input v-model:value="params.width" :disabled="params.device !== '自定义'" />
       </a-form-item>
       <a-form-item label="高度">
-        <a-input v-model:value="params.height" />
+        <a-input v-model:value="params.height" :disabled="params.device !== '自定义'" />
       </a-form-item>
       <a-form-item label="设备比例">
-        <a-input v-model:value="params.deviceScaleFactor" />
+        <a-input v-model:value="params.deviceScaleFactor" :disabled="params.device !== '自定义'" />
       </a-form-item>
       <a-form-item label="类型">
         <a-select v-model:value="params.type">
@@ -85,7 +85,17 @@ function getDeviceInfo() {
   axios
     .get("/api/puppeteer/devices")
     .then((response) => {
-      KnownDevices.value = response.data;
+      KnownDevices.value = [
+        {
+          name: "自定义",
+          viewport: {
+            width: 375,
+            height: 667,
+            deviceScaleFactor: 1,
+          }
+        },
+        ...response.data
+      ]
     })
     .catch((error) => {
       console.error("Error fetching device info:", error);
@@ -99,10 +109,10 @@ onBeforeMount(() => {
 const imgUrl = ref("");
 
 const params = ref({
-  device: "iPhone 6",
+  device: "自定义",
   width: 375,
   height: 667,
-  deviceScaleFactor: 2,
+  deviceScaleFactor: 1,
   type: "png",
   filename: "poster",
   waitUntil: "networkidle2",
@@ -118,7 +128,7 @@ function screenshot() {
     url: "/api/puppeteer/screenshot",
     method: "POST",
     responseType: "arraybuffer",
-    data: params.value,
+    data: { ...params.value, device: params.device === '自定义' ? undefined : params.device },
   })
     .then((response) => {
       const image = new Blob([response.data], { type: "image/png" });
@@ -158,8 +168,6 @@ function selectDevice(item) {
 
   .html {
     background-color: #fff;
-    padding: 20px;
-    line-height: 2;
   }
 }
 </style>
