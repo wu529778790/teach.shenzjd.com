@@ -63,10 +63,11 @@
     </a-form>
   </div>
   <div class="result">
-    <div v-html="params.html" class="html" :style="{
+    <IframeContainer :htmlContent="params.html" class="html" :style="{
       width: params.width + 'px',
       minHeight: params.height + 'px'
-    }"></div>
+    }">
+    </IframeContainer>
     <a-image v-if="imgUrl" :src="imgUrl" :style="{
       width: params.width + 'px',
       height: params.height + 'px'
@@ -76,7 +77,8 @@
 
 <script setup>
 import { onBeforeMount, ref } from "vue";
-import Tinymce from '@/components/tinymce/index.vue';
+import Tinymce from '@/components/TinymceContainer/index.vue';
+import IframeContainer from '@/components/IframeContainer/index.vue';
 import axios from "axios";
 
 const KnownDevices = ref([]);

@@ -1,7 +1,5 @@
 <template>
-    <div class="tinymce-box">
-        <Editor :init="init" v-model="innerValue" />
-    </div>
+    <Editor :init="init" v-model="innerValue" />
 </template>
 <script setup>
 import { ref, watch } from 'vue';
@@ -37,9 +35,3 @@ watch(() => innerValue.value, (val) => {
     emit('update:modelValue', val)
 })
 </script>
-
-<style lang="scss" scoped>
-.tinymce-box {
-    width: 100%;
-}
-</style>
