@@ -25,6 +25,7 @@ const init = {
     placeholder: '在这里输入文字',
     menubar: false,
     elementpath: false,
+    auto_focus: true,
     ...props.init
 }
 

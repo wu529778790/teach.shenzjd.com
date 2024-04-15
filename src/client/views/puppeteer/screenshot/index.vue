@@ -81,7 +81,6 @@
 <script setup>
 import { onBeforeMount, ref } from "vue";
 import Tinymce from '@/components/Tinymce/index.vue';
-import IframeContainer from '@/components/IframeContainer/index.vue';
 import axios from "axios";
 
 const KnownDevices = ref([]);
