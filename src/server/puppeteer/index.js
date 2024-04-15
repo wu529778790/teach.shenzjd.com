@@ -1,25 +1,17 @@
 import express from "express";
-import renderScreenshot from "./renderScreenshot.js";
-import renderPdf from "./renderPdf.js";
-import { KnownDevices } from "puppeteer";
+import screenshot from "./module/screenshot.js";
+import pdf from "./module/pdf.js";
+import devices from "./module/devices.js";
 
 const router = express.Router();
 
 // 返回设备列表
-router.get("/devices", (req, res) => {
-  res.send(Object.values(KnownDevices));
-});
+router.get("/devices", devices);
 
 // 返回截图
-router.post("/screenshot", async (req, res) => {
-  const data = await renderScreenshot(req, res);
-  res.send(data);
-});
+router.post("/screenshot", screenshot);
 
 // 返回PDF
-router.post("/pdf", async (req, res) => {
-  const data = await renderPdf(req, res);
-  res.send(data);
-});
+router.post("/pdf", pdf);
 
 export default router;

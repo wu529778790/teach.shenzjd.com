@@ -1,5 +1,5 @@
 // 获取连接池
-import pool from "./genericPool/index.js";
+import pool from "../genericPool/index.js";
 import { KnownDevices } from "puppeteer";
 
 export default async (req, res) => {
@@ -52,6 +52,6 @@ export default async (req, res) => {
     res.set("Content-Type", `image/${type}`);
     res.set("Content-Disposition", `inline; filename=${filename}.${type}`);
     await page.close();
-    return data;
+    res.send(data);
   });
 };
