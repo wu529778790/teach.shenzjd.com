@@ -36,6 +36,7 @@ export default async (req, res) => {
       await page.goto(url || `data:text/html,${html}`, {
         waitUntil: waitUntil.split(","),
       });
+      await page.setContent(`<meta charset="UTF-8">${html}`);
       // 进行截图
       data = await page.screenshot({
         type: type === "jpg" ? "jpeg" : type,
