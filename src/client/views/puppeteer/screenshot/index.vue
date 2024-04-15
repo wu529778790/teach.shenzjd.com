@@ -41,7 +41,7 @@
       <a-form-item label="品质">
         <a-input v-model:value="params.quality" />
       </a-form-item>
-      <div style="display: flex">
+      <div class="flex-box">
         <a-form-item label="去除背景">
           <a-switch v-model:checked="params.omitBackground" />
         </a-form-item>
@@ -54,24 +54,27 @@
       <a-form-item label="URL">
         <a-input v-model:value="params.url" placeholder="https://www.bilibili.com" />
       </a-form-item>
-      <a-form-item label="HTML">
-        <Tinymce v-model="params.html" />
-      </a-form-item>
-      <a-form-item label="截图">
+
+      <div class="flex-box">
+        <a-form-item label="HTML">
+          <Tinymce v-model="params.html" :key="`${params.width}-${params.height}`" :init="{
+            width: params.width,
+            height: params.height + 47 + 25,
+          }" />
+        </a-form-item>
+        <a-form-item label="截图">
+          <div class="screenshotImg">
+            <a-image v-if="imgUrl" :src="imgUrl" :style="{
+              width: params.width + 'px',
+              height: params.height + 'px'
+            }" />
+          </div>
+        </a-form-item>
+      </div>
+      <a-form-item label="操作">
         <a-button type="primary" @click="screenshot">提交</a-button>
       </a-form-item>
     </a-form>
-  </div>
-  <div class="result">
-    <IframeContainer :htmlContent="params.html" class="html" :style="{
-      width: params.width + 'px',
-      minHeight: params.height + 'px'
-    }">
-    </IframeContainer>
-    <a-image v-if="imgUrl" :src="imgUrl" :style="{
-      width: params.width + 'px',
-      height: params.height + 'px'
-    }" />
   </div>
 </template>
 
@@ -246,12 +249,11 @@ function selectDevice(item) {
   }
 }
 
-.result {
+.flex-box {
   display: flex;
-  justify-content: space-between;
+}
 
-  .html {
-    background-color: #fff;
-  }
+.screenshotImg {
+  margin-top: 47px;
 }
 </style>
