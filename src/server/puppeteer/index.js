@@ -1,17 +1,20 @@
 import express from "express";
-import screenshot from "./module/screenshot.js";
-import pdf from "./module/pdf.js";
-import devices from "./module/devices.js";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from 'url';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const router = express.Router();
 
-// 返回设备列表
-router.get("/devices", devices);
+const modulesPath = path.join(__dirname, "module");
 
-// 返回截图
-router.post("/screenshot", screenshot);
+fs.readdirSync(modulesPath).forEach(async (file) => {
+  const modulePath = path.join(modulesPath, file);
+  const module = await import('file://' + modulePath.replace(/\\/g, '/'));
+  const moduleName = path.basename(file, ".js");
 
-// 返回PDF
-router.post("/pdf", pdf);
+  // 根据文件名动态生成路由
+  router.use(`/${moduleName}`, module.default);
+});
 
 export default router;
