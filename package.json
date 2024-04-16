@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/server/main.js -w src/server",
-    "start": "cross-env NODE_ENV=production node src/server/main.js",
+    "start": "npm run build && cross-env NODE_ENV=production node src/server/main.js",
     "build": "vite build"
   },
   "dependencies": {
