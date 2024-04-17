@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
+    "start": "cross-env NODE_ENV=production node src/server/main.js",
     "dev": "nodemon src/server/main.js -w src/server",
-    "start": "npm run build && cross-env NODE_ENV=production node src/server/main.js",
     "build": "vite build"
   },
   "dependencies": {
