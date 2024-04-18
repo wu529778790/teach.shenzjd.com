@@ -40,6 +40,9 @@ export default defineConfig({
             <script src="https://cdn.jsdelivr.net/npm/vue@3.4.23/dist/vue.global.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/axios@1.6.8/dist/axios.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/vue-router@4.3.2/dist/vue-router.global.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/tinymce@7.0.1/tinymce.min.js"></script>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tinymce@7.0.1/skins/ui/oxide/content.min.css">
+            <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-vue@5.1.1/lib/browser/tinymce-vue.min.js"></script>
           `,
         }
       }
@@ -54,12 +57,17 @@ export default defineConfig({
     rollupOptions: {
       external: ['vue'],
       plugins: [
-        externalGlobals({ vue: 'Vue', 'axios': 'axios', 'vue-router': 'VueRouter' })
+        externalGlobals({
+          vue: 'Vue',
+          'axios': 'axios',
+          'vue-router': 'VueRouter',
+          'tinymce': 'tinymce',
+          'tinymce-vue': 'tinymceVue'
+        })
       ],
       output: {
         manualChunks: {
           antd: ['ant-design-vue', '@ant-design/icons-vue'],
-          tinymce: ['tinymce', '@tinymce/tinymce-vue'],
         }
       }
     }
