@@ -38,6 +38,8 @@ export default defineConfig({
         data: {
           script: `
             <script src="https://cdn.jsdelivr.net/npm/vue@3.4.23/dist/vue.global.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/axios@1.6.8/dist/axios.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/vue-router@4.3.2/dist/vue-router.global.min.js"></script>
           `,
         }
       }
@@ -52,14 +54,12 @@ export default defineConfig({
     rollupOptions: {
       external: ['vue'],
       plugins: [
-        externalGlobals({ vue: 'Vue' })
+        externalGlobals({ vue: 'Vue', 'axios': 'axios', 'vue-router': 'VueRouter' })
       ],
       output: {
         manualChunks: {
-          vue: ['vue-router'],
-          antd: ['@ant-design/icons-vue'],
+          antd: ['ant-design-vue', '@ant-design/icons-vue'],
           tinymce: ['tinymce', '@tinymce/tinymce-vue'],
-          axios: ['axios'],
         }
       }
     }
