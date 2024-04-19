@@ -5,7 +5,6 @@ import { visualizer } from 'rollup-plugin-visualizer' // 打包体积分析插�
 import viteImagemin from 'vite-plugin-imagemin'; // 图片压缩插件
 import { createHtmlPlugin } from 'vite-plugin-html' // 生成 html 插件
 import externalGlobals from "rollup-plugin-external-globals"; // 导出全局变量
-import { manualChunksPlugin } from 'vite-plugin-webpackchunkname'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -64,7 +63,6 @@ export default defineConfig({
         ]
       }
     }),
-    manualChunksPlugin()
   ],
   resolve: {
     alias: {
@@ -75,7 +73,7 @@ export default defineConfig({
     drop: ['console', 'debugger'],
   },
   build: {
-    target: 'esnext', // 默认值是一个 Vite 特有的值：'modules' https://cn.vitejs.dev/config/build-options.html#build-target
+    target: 'modules', // 默认值是一个 Vite 特有的值：'modules' https://cn.vitejs.dev/config/build-options.html#build-target
     minify: 'esbuild', // 默认为'esbuild'，boolean | 'terser' | 'esbuild' | 'gzip' | 'both'
     rollupOptions: {
       output: {
@@ -87,12 +85,11 @@ export default defineConfig({
         }
       },
       //  告诉打包工具 在external配置的 都是外部依赖项  不需要打包
-      external: ['vue', 'axios', 'vue-router', 'tinymce', 'tinymce-vue', 'ant-design-vue'],
       plugins: [
         externalGlobals({
-          vue: 'Vue',
-          'axios': 'axios',
+          'vue': 'Vue',
           'vue-router': 'VueRouter',
+          'axios': 'axios',
           'tinymce': 'tinymce',
           'tinymce-vue': 'tinymceVue',
           'ant-design-vue': 'antd',

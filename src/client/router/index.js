@@ -14,11 +14,11 @@ export const router = createRouter({
           children: [
             {
               path: "screenshot",
-              component: () => import(/* webpackChunkName: 'screenshot'  */"@/views/puppeteer/screenshot/index.vue"),
+              component: () => import("@/views/puppeteer/screenshot/index.vue"),
             },
             {
               path: "pdf",
-              component: () => import(/* webpackChunkName: 'pdf'  */"@/views/puppeteer/pdf/index.vue"),
+              component: () => import("@/views/puppeteer/pdf/index.vue"),
             },
           ],
         },
@@ -28,7 +28,7 @@ export const router = createRouter({
           children: [
             {
               path: "xiaohongshu",
-              component: () => import(/* webpackChunkName: 'xiaohongshu'  */"@/views/tools/xiaohongshu/index.vue"),
+              component: () => import("@/views/tools/xiaohongshu/index.vue"),
             }
           ]
         }
