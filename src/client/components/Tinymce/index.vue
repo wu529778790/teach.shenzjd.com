@@ -1,17 +1,14 @@
 <template>
-    <Editor :init="init" v-model="innerValue" />
+    <Editor :init="init" tinymceScriptSrc="/tinymce/tinymce.min.js" v-model="innerValue" />
 </template>
 <script setup>
 import { ref, watch } from 'vue';
-import tinymce from 'tinymce/tinymce';
 import Editor from '@tinymce/tinymce-vue';
 
 defineOptions({
     name: 'Tinymce'
 })
 
-// 指定tinymce文件加载的位置
-tinymce.baseURL = 'tinymce';
 
 const props = defineProps({
     modelValue: String,
@@ -19,7 +16,6 @@ const props = defineProps({
 })
 
 const init = {
-    license_key: 'gpl',
     language_url: '/tinymce/langs/zh_CN.js',
     language: 'zh_CN',
     placeholder: '在这里输入文字',

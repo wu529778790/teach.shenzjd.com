@@ -18,8 +18,6 @@ export default defineConfig({
             <script src="https://unpkg.com/vue@3.4.23/dist/vue.global.prod.js"></script>
             <script src="https://unpkg.com/vue-router@4.3.2/dist/vue-router.global.js"></script>
             <script src="https://unpkg.com/axios@1.6.8/dist/axios.min.js"></script>
-            <script src="https://unpkg.com/tinymce@7.0.1/tinymce.min.js"></script>
-            <link rel="stylesheet" href="https://unpkg.com/tinymce@7.0.1/skins/ui/oxide/content.min.css">
             <script src="https://unpkg.com/@tinymce/tinymce-vue@5.1.1/lib/browser/tinymce-vue.min.js"></script>
             <script src="https://unpkg.com/dayjs/dayjs.min.js"></script>
             <script src="https://unpkg.com/dayjs/plugin/customParseFormat.js"></script>
@@ -90,7 +88,6 @@ export default defineConfig({
           'vue': 'Vue',
           'vue-router': 'VueRouter',
           'axios': 'axios',
-          'tinymce': 'tinymce',
           'tinymce-vue': 'tinymceVue',
           'ant-design-vue': 'antd',
         })
