@@ -63,6 +63,7 @@ export default defineConfig({
     },
   },
   build: {
+    minify: false,
     rollupOptions: {
       external: ['vue'],
       plugins: [
@@ -78,6 +79,7 @@ export default defineConfig({
       output: {
         manualChunks: {
           antd: ['@ant-design/icons-vue'],
+          tinymce: ['tinymce'],
         }
       }
     }
