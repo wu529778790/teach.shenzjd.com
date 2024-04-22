@@ -35,10 +35,17 @@ export default async (req, res) => {
         await page.emulate(KnownDevices[device]);
       }
       // 访问 URL 页面
-      await page.goto(url || `data:text/html,${html}`, {
-        waitUntil: waitUntil.split(","),
-      });
-      await page.setContent(`<meta charset="UTF-8">${html}`);
+      if (url) {
+        await page.goto(url, {
+          waitUntil: waitUntil.split(","),
+        });
+      }
+      if (html) {
+        await page.goto(`data:text/html,${html}`, {
+          waitUntil: waitUntil.split(","),
+        });
+        await page.setContent(`<meta charset="UTF-8">${html}`);
+      }
       // 进行截图
       data = await page.screenshot({
         type: type === "jpg" ? "jpeg" : type,

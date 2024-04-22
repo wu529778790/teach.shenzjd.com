@@ -12,7 +12,7 @@
 
 <script setup>
 import { ref, h } from "vue";
-import { IeOutlined, ToolOutlined } from "@ant-design/icons-vue";
+import { IeOutlined } from "@ant-design/icons-vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
@@ -25,9 +25,14 @@ const items = ref([
     title: "无头浏览器",
     children: [
       {
-        key: "/puppeteer/screenshot",
-        label: "截图",
-        title: "截图",
+        key: "/puppeteer/urlScreenshot",
+        label: "URL截图",
+        title: "URL截图",
+      },
+      {
+        key: "/puppeteer/stringScreenshot",
+        label: "字符串截图",
+        title: "字符串截图",
       },
       {
         key: "/puppeteer/pdf",
@@ -35,19 +40,6 @@ const items = ref([
         title: "pdf",
       },
     ],
-  },
-  {
-    key: "/tools",
-    icon: () => h(ToolOutlined),
-    label: "工具",
-    title: "工具",
-    children: [
-      {
-        key: "/tools/xiaohongshu",
-        label: "小红书",
-        title: "小红书",
-      }
-    ]
   }
 ]);
 const currentKey = ref(["puppeteer"]);
