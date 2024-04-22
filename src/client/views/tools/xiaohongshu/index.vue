@@ -54,10 +54,15 @@
             </a-form-item>
         </a-form>
         <div class="right flex-box">
-            <Tinymce v-model="params.html" :key="`${params.width}-${params.height}`" :init="{
-                width: params.width + 4,
-                height: 'auto',
-            }" />
+            <div class="editor" :style="{
+                width: params.width + 4 + 'px',
+                height: params.height + 72 + 'px'
+            }">
+                <Tinymce v-model="params.html" :init="{
+                    width: '100%',
+                    height: '100%',
+                }" />
+            </div>
             <div class="screenshotImg">
                 <a-image v-if="imgUrl" :src="imgUrl" :style="{
                     width: params.width + 'px',
@@ -113,7 +118,6 @@ const params = ref({
     quality: 100,
     omitBackground: false,
     fullPage: false,
-    url: "",
     html: "",
 });
 
@@ -201,7 +205,7 @@ function screenshot() {
         responseType: "arraybuffer",
         data: {
             ...params.value,
-            device: params.device === '自定义' ? undefined : params.device,
+            device: params.value.device === '自定义' ? undefined : params.value.device,
             html
         },
     })
@@ -215,7 +219,7 @@ function screenshot() {
 }
 
 function selectDevice(item) {
-    const device = KnownDevices.value.find((device) => device.name === item);
+    const device = KnownDevices.value.find((it) => it.name === item);
     if (device) {
         params.value.width = device.viewport.width;
         params.value.height = device.viewport.height;
@@ -231,17 +235,21 @@ function selectDevice(item) {
 
     .left {
         width: 300px;
+        margin-right: 8px;
     }
 
     .right {
-        margin-left: 16px;
         flex: 1;
         height: 100%;
         display: flex;
+        flex-wrap: wrap;
+
+        .editor {
+            margin: 0px 8px 16px 8px;
+        }
 
         .screenshotImg {
-            margin-left: 16px;
-            margin-top: 47px;
+            margin: 47px 8px 16px 8px;
         }
     }
 }
