@@ -55,24 +55,16 @@
         <a-input v-model:value="params.url" placeholder="https://www.bilibili.com" />
       </a-form-item>
 
-      <div class="flex-box">
-        <a-form-item label="HTML">
-          <Tinymce v-model="params.html" :key="`${params.width}-${params.height}`" :init="{
-            width: params.width,
-            height: params.height + 47 + 25,
-          }" />
-        </a-form-item>
-        <a-form-item label="截图">
-          <div class="screenshotImg">
-            <a-image v-if="imgUrl" :src="imgUrl" :style="{
-              width: params.width + 'px',
-              height: params.height + 'px'
-            }" />
-          </div>
-        </a-form-item>
-      </div>
       <a-form-item label="操作">
         <a-button type="primary" @click="screenshot">提交</a-button>
+      </a-form-item>
+      <a-form-item label="截图">
+        <div class="screenshotImg">
+          <a-image v-if="imgUrl" :src="imgUrl" :style="{
+            width: params.width + 'px',
+            height: params.height + 'px'
+          }" />
+        </div>
       </a-form-item>
     </a-form>
   </div>
@@ -80,7 +72,6 @@
 
 <script setup>
 import { onBeforeMount, ref } from "vue";
-import Tinymce from '@/components/Tinymce/index.vue';
 import axios from "axios";
 
 const KnownDevices = ref([]);
@@ -113,107 +104,27 @@ onBeforeMount(() => {
 const imgUrl = ref("");
 
 const params = ref({
-  device: "自定义",
+  device: "iPhone X",
   width: 375,
-  height: 667,
-  deviceScaleFactor: 1,
+  height: 812,
+  deviceScaleFactor: 3,
   type: "png",
   filename: "poster",
   waitUntil: "networkidle2",
   quality: 100,
   omitBackground: false,
   fullPage: false,
-  url: "",
-  html: "<h1>Hello, World!</h1>",
+  url: "https://www.bilibili.com",
 });
 
 function screenshot() {
-  const html = `<!DOCTYPE html>
-  <html>
-  <head>
-    <style>
-      html,body {
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        line-height: 1.4;
-        margin: 1rem;
-      }
-      table {
-        border-collapse: collapse;
-      }
-      /* Apply a default padding if legacy cellpadding attribute is missing */
-      table:not([cellpadding]) th,
-      table:not([cellpadding]) td {
-        padding: 0.4rem;
-      }
-      /* Set default table styles if a table has a positive border attribute
-        and no inline css */
-      table[border]:not([border="0"]):not([style*="border-width"]) th,
-      table[border]:not([border="0"]):not([style*="border-width"]) td {
-        border-width: 1px;
-      }
-      /* Set default table styles if a table has a positive border attribute
-        and no inline css */
-      table[border]:not([border="0"]):not([style*="border-style"]) th,
-      table[border]:not([border="0"]):not([style*="border-style"]) td {
-        border-style: solid;
-      }
-      /* Set default table styles if a table has a positive border attribute
-        and no inline css */
-      table[border]:not([border="0"]):not([style*="border-color"]) th,
-      table[border]:not([border="0"]):not([style*="border-color"]) td {
-        border-color: #ccc;
-      }
-      figure {
-        display: table;
-        margin: 1rem auto;
-      }
-      figure figcaption {
-        color: #999;
-        display: block;
-        margin-top: 0.25rem;
-        text-align: center;
-      }
-      hr {
-        border-color: #ccc;
-        border-style: solid;
-        border-width: 1px 0 0 0;
-      }
-      code {
-        background-color: #e8e8e8;
-        border-radius: 3px;
-        padding: 0.1rem 0.2rem;
-      }
-      .mce-content-body:not([dir=rtl]) blockquote {
-        border-left: 2px solid #ccc;
-        margin-left: 1.5rem;
-        padding-left: 1rem;
-      }
-      .mce-content-body[dir=rtl] blockquote {
-        border-right: 2px solid #ccc;
-        margin-right: 1.5rem;
-        padding-right: 1rem;
-      }
-
-    </style>
-  </head>
-  <body>
-    ${params.value.html}
-  </body>
-  </html>
-`
-  console.log(html)
   axios({
     url: "/api/puppeteer/screenshot",
     method: "POST",
     responseType: "arraybuffer",
     data: {
       ...params.value,
-      device: params.device === '自定义' ? undefined : params.device,
-      html
+      device: params.value.device === '自定义' ? undefined : params.value.device,
     },
   })
     .then((response) => {
