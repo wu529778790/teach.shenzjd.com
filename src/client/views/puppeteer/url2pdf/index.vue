@@ -75,7 +75,6 @@
 <script setup>
 import { onBeforeMount, ref } from "vue";
 import { getDevicesApi, getScreenshotApi } from './api'
-import axios from "axios";
 
 const KnownDevices = ref([]);
 // 获取设备信息

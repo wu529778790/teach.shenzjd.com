@@ -231,7 +231,6 @@ function selectDevice(item) {
 <style lang="scss" scoped>
 .params-box {
     display: flex;
-    height: 100%;
 
     .left {
         width: 300px;
