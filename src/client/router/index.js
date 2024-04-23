@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
+import { h } from 'vue';
 import { IeOutlined } from "@ant-design/icons-vue";
 
 export const routes = [
