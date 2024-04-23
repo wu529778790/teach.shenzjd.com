@@ -56,15 +56,17 @@
       </a-form-item>
 
       <a-form-item label="操作">
-        <a-button type="primary" @click="screenshot">提交</a-button>
+        <a-button type="primary" @click="screenshot" :disabled="spinning">提交</a-button>
       </a-form-item>
       <a-form-item label="截图">
-        <div class="screenshotImg">
-          <a-image v-if="imgUrl" :src="imgUrl" :style="{
+        <a-spin :spinning="spinning">
+          <div class="screenshotImg" :style="{
             width: params.width + 'px',
             height: params.height + 'px'
-          }" />
-        </div>
+          }">
+            <a-image v-if="imgUrl" :src="imgUrl" />
+          </div>
+        </a-spin>
       </a-form-item>
     </a-form>
   </div>
@@ -72,33 +74,28 @@
 
 <script setup>
 import { onBeforeMount, ref } from "vue";
+import { getDevicesApi, getScreenshotApi } from './api'
 import axios from "axios";
 
 const KnownDevices = ref([]);
 // 获取设备信息
-function getDeviceInfo() {
-  axios
-    .get("/api/puppeteer/devices")
-    .then((response) => {
-      KnownDevices.value = [
-        {
-          name: "自定义",
-          viewport: {
-            width: 375,
-            height: 667,
-            deviceScaleFactor: 1,
-          }
-        },
-        ...response.data
-      ]
-    })
-    .catch((error) => {
-      console.error("Error fetching device info:", error);
-    });
+async function getDeviceInfo() {
+  const data = await getDevicesApi()
+  KnownDevices.value = [
+    {
+      name: "自定义",
+      viewport: {
+        width: 375,
+        height: 667,
+        deviceScaleFactor: 1,
+      }
+    },
+    ...data
+  ]
 }
 
-onBeforeMount(() => {
-  getDeviceInfo();
+onBeforeMount(async () => {
+  await getDeviceInfo();
 });
 
 const imgUrl = ref("");
@@ -117,23 +114,16 @@ const params = ref({
   url: "https://www.bilibili.com",
 });
 
-function screenshot() {
-  axios({
-    url: "/api/puppeteer/screenshot",
-    method: "POST",
-    responseType: "arraybuffer",
-    data: {
-      ...params.value,
-      device: params.value.device === '自定义' ? undefined : params.value.device,
-    },
+const spinning = ref(false)
+async function screenshot() {
+  spinning.value = true
+  const res = await getScreenshotApi({
+    ...params.value,
+    device: params.value.device === '自定义' ? undefined : params.value.device,
   })
-    .then((response) => {
-      const image = new Blob([response.data], { type: "image/png" });
-      imgUrl.value = URL.createObjectURL(image);
-    })
-    .catch((error) => {
-      console.error("Error fetching screenshot:", error);
-    });
+  const image = new Blob([res.data], { type: "image/png" });
+  imgUrl.value = URL.createObjectURL(image);
+  spinning.value = false
 }
 
 function selectDevice(item) {
