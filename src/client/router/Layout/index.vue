@@ -20,16 +20,20 @@ const router = useRouter();
 
 const generateMenus = routes => {
   return routes.map(route => {
-    return {
-      key: route.path,
-      icon: route?.meta?.icon,
-      label: route?.meta?.title,
-      title: route?.meta?.title,
-      children: route.children && route.children.length > 0 ? generateMenus(route.children) : undefined
+    if (route?.meta?.menu === false) {
+      return route?.children && route?.children.length > 0 && generateMenus(route?.children)[0]
+    } else {
+      return {
+        key: route.path,
+        icon: route?.meta?.icon,
+        label: route?.meta?.title,
+        title: route?.meta?.title,
+        children: route.children && route.children.length > 0 ? generateMenus(route.children) : undefined
+      }
     }
   })
 }
-const menus = generateMenus(routes[0].children)
+const menus = generateMenus(routes)
 const currentKey = ref(['/puppeteer/url2screenshot']);
 
 const handleClick = ({ key }) => {

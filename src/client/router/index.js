@@ -7,6 +7,9 @@ export const routes = [
     path: "/",
     component: () => import("./Layout/index.vue"),
     redirect: "/puppeteer",
+    meta: {
+      menu: false
+    },
     children: [
       {
         path: "/puppeteer",
