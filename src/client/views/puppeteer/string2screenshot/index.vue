@@ -14,9 +14,6 @@
             <a-form-item label="高度">
                 <a-input v-model:value="params.height" :disabled="params.device !== '自定义'" />
             </a-form-item>
-            <a-form-item label="设备比例">
-                <a-input v-model:value="params.deviceScaleFactor" :disabled="params.device !== '自定义'" />
-            </a-form-item>
             <a-form-item label="类型">
                 <a-select v-model:value="params.type">
                     <a-select-option value="png">png</a-select-option>
@@ -42,15 +39,12 @@
                 <a-input v-model:value="params.quality" />
             </a-form-item>
             <div class="flex-box">
-                <a-form-item label="去除背景">
-                    <a-switch v-model:checked="params.omitBackground" />
-                </a-form-item>
                 <a-form-item label="全屏">
                     <a-switch v-model:checked="params.fullPage" />
                 </a-form-item>
             </div>
             <a-form-item label="操作">
-                <a-button type="primary" @click="screenshot">提交</a-button>
+                <a-button type="primary" @click="screenshot" :disabled="spinning">提交</a-button>
             </a-form-item>
         </a-form>
         <div class="right flex-box">
@@ -63,12 +57,14 @@
                     height: '100%',
                 }" />
             </div>
-            <div class="screenshotImg">
-                <a-image v-if="imgUrl" :src="imgUrl" :style="{
+            <a-spin :spinning="spinning">
+                <div class="screenshotImg" :style="{
                     width: params.width + 'px',
                     height: params.height + 'px'
-                }" />
-            </div>
+                }">
+                    <a-image v-if="imgUrl" :src="imgUrl" />
+                </div>
+            </a-spin>
         </div>
     </div>
 </template>
@@ -76,29 +72,22 @@
 <script setup>
 import { onBeforeMount, ref } from "vue";
 import Tinymce from '@/components/Tinymce/index.vue';
-import axios from "axios";
+import { getDevicesApi, getScreenshotApi } from './api'
 
 const KnownDevices = ref([]);
 // 获取设备信息
-function getDeviceInfo() {
-    axios
-        .get("/api/puppeteer/devices")
-        .then((response) => {
-            KnownDevices.value = [
-                {
-                    name: "自定义",
-                    viewport: {
-                        width: 375,
-                        height: 667,
-                        deviceScaleFactor: 1,
-                    }
-                },
-                ...response.data
-            ]
-        })
-        .catch((error) => {
-            console.error("Error fetching device info:", error);
-        });
+async function getDeviceInfo() {
+    const data = await getDevicesApi()
+    KnownDevices.value = [
+        {
+            name: "自定义",
+            viewport: {
+                width: 375,
+                height: 667
+            }
+        },
+        ...data
+    ]
 }
 
 onBeforeMount(() => {
@@ -111,17 +100,17 @@ const params = ref({
     device: "自定义",
     width: 375,
     height: 500,
-    deviceScaleFactor: 2,
     type: "png",
     filename: "poster",
     waitUntil: "networkidle2",
     quality: 100,
-    omitBackground: false,
     fullPage: false,
     html: "",
 });
 
-function screenshot() {
+
+const spinning = ref(false)
+async function screenshot() {
     const html = `<!DOCTYPE html>
   <html>
   <head>
@@ -199,23 +188,15 @@ function screenshot() {
   </body>
   </html>
 `
-    axios({
-        url: "/api/puppeteer/screenshot",
-        method: "POST",
-        responseType: "arraybuffer",
-        data: {
-            ...params.value,
-            device: params.value.device === '自定义' ? undefined : params.value.device,
-            html
-        },
+    spinning.value = true
+    const res = await getScreenshotApi({
+        ...params.value,
+        device: undefined,
+        html
     })
-        .then((response) => {
-            const image = new Blob([response.data], { type: "image/png" });
-            imgUrl.value = URL.createObjectURL(image);
-        })
-        .catch((error) => {
-            console.error("Error fetching screenshot:", error);
-        });
+    const image = new Blob([res.data], { type: "image/png" });
+    imgUrl.value = URL.createObjectURL(image);
+    spinning.value = false
 }
 
 function selectDevice(item) {
@@ -223,7 +204,6 @@ function selectDevice(item) {
     if (device) {
         params.value.width = device.viewport.width;
         params.value.height = device.viewport.height;
-        params.value.deviceScaleFactor = device.viewport.deviceScaleFactor;
     }
 }
 </script>
