@@ -34,7 +34,17 @@ const generateMenus = routes => {
   })
 }
 const menus = generateMenus(routes)
-const currentKey = ref(['/puppeteer/url2screenshot']);
+
+const getCurrentKey = (routes) => {
+  routes.forEach(route => {
+    if (!route.redirect) {
+      return route.path
+    } else {
+      return getCurrentKey(route.children)
+    }
+  })
+}
+const currentKey = ref([getCurrentKey(routes)]);
 
 const handleClick = ({ key }) => {
   router.push(key);
