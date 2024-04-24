@@ -1,4 +1,6 @@
 import axios from "axios";
+import { message } from 'ant-design-vue';
+const [messageApi] = message.useMessage();
 
 const request = axios.create({
     baseURL: '/',
@@ -23,6 +25,7 @@ request.interceptors.response.use((response) => {
     return response;
 }, (error) => {
     console.error(error)
+    messageApi.error(error.message);
     return Promise.reject(error);
 })
 
