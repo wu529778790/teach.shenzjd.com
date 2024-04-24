@@ -9,7 +9,7 @@ export const getDevicesApi = () => {
 
 export const getScreenshotApi = (data) => {
     return request({
-        url: "/api/puppeteer/screenshot",
+        url: "/api/puppeteer/pdf",
         method: "POST",
         responseType: "blob",
         data,

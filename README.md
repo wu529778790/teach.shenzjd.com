@@ -64,3 +64,5 @@ yum install wqy-zenhei-fonts.noarch -y
 
 - <https://github.com/Lete114/WebStack-Screenshot>
 - <https://www.npmjs.com/package/puppeteer-cluster>
+- <https://juejin.cn/post/6979882586227245093>
+- <https://juejin.cn/post/7143596746856202254>

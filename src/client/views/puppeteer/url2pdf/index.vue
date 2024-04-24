@@ -17,17 +17,6 @@
       <a-form-item label="设备比例">
         <a-input v-model:value="params.deviceScaleFactor" :disabled="params.device !== '自定义'" />
       </a-form-item>
-      <a-form-item label="类型">
-        <a-select v-model:value="params.type">
-          <a-select-option value="png">png</a-select-option>
-          <a-select-option value="jpeg">jpeg</a-select-option>
-          <a-select-option value="webp">webp</a-select-option>
-          <a-select-option value="avif">avif</a-select-option>
-        </a-select>
-      </a-form-item>
-      <a-form-item label="文件名">
-        <a-input v-model:value="params.filename" />
-      </a-form-item>
       <a-form-item label="waitUntil">
         <a-select v-model:value="params.waitUntil">
           <a-select-option value="networkidle0">networkidle0</a-select-option>
@@ -58,7 +47,7 @@
       <a-form-item label="操作">
         <a-button type="primary" @click="screenshot" :disabled="spinning">提交</a-button>
       </a-form-item>
-      <a-form-item label="截图">
+      <!-- <a-form-item label="截图">
         <a-spin :spinning="spinning">
           <div class="screenshotImg" :style="{
             width: params.width + 'px',
@@ -67,7 +56,7 @@
             <a-image v-if="imgUrl" :src="imgUrl" />
           </div>
         </a-spin>
-      </a-form-item>
+      </a-form-item> -->
     </a-form>
   </div>
 </template>
@@ -97,14 +86,13 @@ onBeforeMount(async () => {
   await getDeviceInfo();
 });
 
-const imgUrl = ref("");
+// const imgUrl = ref("");
 
 const params = ref({
   device: "iPhone X",
   width: 375,
   height: 812,
   deviceScaleFactor: 3,
-  type: "png",
   filename: "poster",
   waitUntil: "networkidle2",
   quality: 100,
@@ -120,8 +108,13 @@ async function screenshot() {
     ...params.value,
     device: params.value.device === '自定义' ? undefined : params.value.device,
   })
-  const image = new Blob([res.data], { type: "image/png" });
-  imgUrl.value = URL.createObjectURL(image);
+  const pdf = new Blob([res.data], { type: "application/pdf" });
+  const link = document.createElement('a')
+  link.href = URL.createObjectURL(pdf)
+  link.download = `${params.value.filename}.pdf`
+  link.click()
+  URL.revokeObjectURL(link.href)
+
   spinning.value = false
 }
 

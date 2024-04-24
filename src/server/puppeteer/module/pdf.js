@@ -12,13 +12,10 @@ export default async (req, res) => {
       width = 300,
       height = 480,
       deviceScaleFactor = 1,
-      type = "png",
-      filename = "poster",
       waitUntil = "domcontentloaded",
       quality = 100,
       omitBackground,
       fullPage,
-      html,
       url,
     } = req.body;
     let data;
@@ -31,21 +28,34 @@ export default async (req, res) => {
           deviceScaleFactor: Number(deviceScaleFactor),
         });
       }
-      await page.emulate(KnownDevices[device]);
+      if (KnownDevices[device]) {
+        await page.emulate(KnownDevices[device]);
+      }
       // 访问 URL 页面
-      await page.goto(url || `data:text/html,${html}`, {
-        waitUntil: waitUntil.split(","),
-      });
-      // 进行截图
+      if (url) {
+        await page.goto(url, {
+          waitUntil: waitUntil.split(","),
+        });
+      }
+      console.log('page', page)
+      // 生成pdf
       data = await page.pdf({
-        format: "A4",
-      });
+        format: 'A4',
+        // printBackground: true, // 打印背景
+        // displayHeaderFooter: true, // 打印页眉页脚
+        // margin: {
+        //   top: '2px',
+        //   bottom: '35px'
+        // },
+      })
+      console.log('data', data)
     } catch (error) {
       throw error;
     } finally {
-      await page.close();
+      page.close();
     }
-    res.set("Content-Type", "application/pdf", "Content-length", pdf.length);
+    console.log('data', data)
+    res.set("Content-Type", `application/pdf`, 'Content-Length', data.length);
     res.send(data);
   });
 };
