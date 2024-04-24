@@ -57,7 +57,10 @@
                     height: '100%',
                 }" />
             </div>
-            <a-spin :spinning="spinning">
+            <a-spin :spinning="spinning" :style="{
+                width: params.width + 'px',
+                height: params.height + 'px'
+            }">
                 <div class="screenshotImg" :style="{
                     width: params.width + 'px',
                     height: params.height + 'px'

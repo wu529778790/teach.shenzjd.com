@@ -59,7 +59,10 @@
         <a-button type="primary" @click="screenshot" :disabled="spinning">提交</a-button>
       </a-form-item>
       <a-form-item label="截图">
-        <a-spin :spinning="spinning">
+        <a-spin :spinning="spinning" :style="{
+          width: params.width + 'px',
+          height: params.height + 'px'
+        }">
           <div class="screenshotImg" :style="{
             width: params.width + 'px',
             height: params.height + 'px'
