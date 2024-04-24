@@ -20,17 +20,20 @@ export default async (req, res) => {
     } = req.body;
     let data;
     try {
-      if (!KnownDevices[device]) {
-        // 设置浏览器视口
-        await page.setViewport({
-          width: Number(width),
-          height: Number(height),
-          deviceScaleFactor: Number(deviceScaleFactor),
-        });
-      }
-      if (KnownDevices[device]) {
-        await page.emulate(KnownDevices[device]);
-      }
+      // if (!KnownDevices[device]) {
+      //   // 设置浏览器视口
+      //   await page.setViewport({
+      //     width: Number(width),
+      //     height: Number(height),
+      //     deviceScaleFactor: Number(deviceScaleFactor),
+      //   });
+      // }
+      // if (KnownDevices[device]) {
+      //   await page.emulate(KnownDevices[device]);
+      // }
+      // 模拟打印环境
+      await page.emulateMediaType("print");
+      // await page.evaluate(() => matchMedia('print').matches);
       // 访问 URL 页面
       if (url) {
         await page.goto(url, {
