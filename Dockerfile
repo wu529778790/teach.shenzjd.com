@@ -1,7 +1,7 @@
 FROM node:20.12.2-alpine3.19
-
-# 安装pnpm
-RUN npm install -g pnpm
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
 # 设置工作目录
 WORKDIR /app
