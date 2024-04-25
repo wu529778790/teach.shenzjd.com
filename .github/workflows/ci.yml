@@ -17,7 +17,10 @@ jobs:
       # 构建 Docker 镜像
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag tools.shenzjd.com:$(date +%s)
-      # 保存镜像
+      # 创建docker文件夹
+      - name: Create docker folder
+        run: mkdir -p docker
+      # 将镜像保存到docker文件夹
       - name: Save image
         run: docker save -o /docker/tools.shenzjd.com-$(date +%s).tar tools.shenzjd.com:$(date +%s)
       # 上传到服务器
