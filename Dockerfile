@@ -1,8 +1,9 @@
-FROM node:20.12.2-alpine3.19
+FROM node:20.12.2-alpine3.19 AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
+FROM base AS build
 # 设置工作目录
 WORKDIR /app
 
