@@ -54,4 +54,3 @@ jobs:
           username: tools_shenzjd_com
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
-          log-level: verbose
