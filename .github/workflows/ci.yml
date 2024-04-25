@@ -48,7 +48,7 @@ jobs:
       - name: Upload to Deploy Server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: "106.55.242.160"
+          server: "ftp://106.55.242.160"
           port: "21"
           local-dir: "./dist/"
           username: "tools_shenzjd_com"
