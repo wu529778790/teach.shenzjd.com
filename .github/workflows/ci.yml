@@ -13,18 +13,9 @@ jobs:
     steps:
       # 拉取代码
       - name: Checkout repo
-        uses: actions/checkout@v3
-      # setup-qumu
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-      # setup docker
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2
-      # pnpm
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.2
-        with:
-          version: latest
+        uses: actions/checkout@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@V3.0.0
       # 构建 Docker 镜像
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag tools.shenzjd.com:$(date +%s)
