@@ -1,6 +1,7 @@
 // 获取连接池
 import pool from "../genericPool/index.js";
 import { KnownDevices } from "puppeteer";
+import dayjs from "dayjs";
 
 export default async (req, res) => {
   // 使用连接池资源
@@ -13,7 +14,6 @@ export default async (req, res) => {
       height = 480,
       deviceScaleFactor = 1,
       type = "png",
-      filename = "poster",
       waitUntil = "domcontentloaded",
       quality = 100,
       omitBackground,
@@ -57,7 +57,7 @@ export default async (req, res) => {
       throw error;
     }
     res.set("Content-Type", `image/${type}`);
-    res.set("Content-Disposition", `inline; filename=${filename}.${type}`);
+    res.set("Content-Disposition", `filename=${dayjs().format("YYYYMMDDHHmmss")}.${type}`);
     await page.close();
     res.send(data);
   });

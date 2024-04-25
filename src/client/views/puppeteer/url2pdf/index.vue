@@ -103,6 +103,7 @@
 <script setup>
 import { onBeforeMount, ref } from "vue";
 import { getDevicesApi, getScreenshotApi } from './api'
+import dayjs from 'dayjs'
 
 const KnownDevices = ref([]);
 // 获取设备信息
@@ -166,7 +167,7 @@ async function screenshot() {
   const pdf = new Blob([res.data], { type: "application/pdf" });
   const link = document.createElement('a')
   link.href = URL.createObjectURL(pdf)
-  link.download = `${params.value.url}${new Date().getTime()}.pdf`
+  link.download = `${params.value.url}${dayjs().format('YYYYMMDDHHmmss')}.pdf`
   link.click()
   URL.revokeObjectURL(link.href)
   spinning.value = false

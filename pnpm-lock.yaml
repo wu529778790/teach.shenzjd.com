@@ -20,6 +20,9 @@ dependencies:
   axios:
     specifier: ^1.6.8
     version: 1.6.8
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   tinymce:
     specifier: ^7.0.1
     version: 7.0.1

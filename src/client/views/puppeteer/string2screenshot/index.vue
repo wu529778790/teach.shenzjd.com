@@ -22,9 +22,6 @@
                     <a-select-option value="avif">avif</a-select-option>
                 </a-select>
             </a-form-item>
-            <a-form-item label="文件名">
-                <a-input v-model:value="params.filename" />
-            </a-form-item>
             <a-form-item label="waitUntil">
                 <a-select v-model:value="params.waitUntil">
                     <a-select-option value="networkidle0">networkidle0</a-select-option>
@@ -104,7 +101,6 @@ const params = ref({
     width: 375,
     height: 500,
     type: "png",
-    filename: "poster",
     waitUntil: "networkidle2",
     quality: 100,
     fullPage: false,
