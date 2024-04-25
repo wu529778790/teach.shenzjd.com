@@ -53,5 +53,5 @@ jobs:
           local-dir: "./dist/"
           username: "tools_shenzjd_com"
           password: ${{ secrets.FTP_PASSWORD }},
-          protocol: ftp,
-          log-level: debug
+          protocol: 'ftp',
+          log-level: 'debug'
