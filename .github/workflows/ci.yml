@@ -51,6 +51,7 @@ jobs:
           server: "106.55.242.160"
           port: "21"
           local-dir: ./dist/
+          server-dir: dist/
           username: tools_shenzjd_com
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
