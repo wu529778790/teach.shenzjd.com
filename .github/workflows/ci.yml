@@ -14,44 +14,19 @@ jobs:
       # 拉取代码
       - name: Checkout repo
         uses: actions/checkout@v3
-      # 安装node
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20.12.2
-      # 安装pnpm
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 9
-      # 检查缓存
-      # 如果key命中缓存则直接将缓存的文件还原到 path 目录，从而减少流水线运行时间
-      # 若 key 没命中缓存时，在当前Job成功完成时将自动创建一个新缓存
-      - name: Cache
-        # 缓存命中结果会存储在steps.[id].outputs.cache-hit里，该变量在继后的step中可读
-        id: cache
-        uses: actions/cache@v3
-        with:
-          # 缓存文件目录的路径
-          path: ~/.pnpm-store
-          # key中定义缓存标志位的生成方式。runner.OS指当前环境的系统。外加对pnpm-lock内容生成哈希码作为key值，如果pnpm-lock改变则代表依赖有变化。
-          # 这里用pnpm-lock而不是package.json是因为package.json中还有version和description之类的描述项目但和依赖无关的属性
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-      # 安装依赖
-      - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: pnpm install
-      # 执行构建
-      - name: Build
-        run: pnpm run build
-      # 上传构建结果
+      # 构建 Docker 镜像
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag tools.shenzjd.com:$(date +%s)
+      # 保存镜像
+      - name: Save image
+        run: docker save -o /docker/tools.shenzjd.com-$(date +%s).tar tools.shenzjd.com:$(date +%s)
+      # 上传到服务器
       - name: Upload to Deploy Server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: "106.55.242.160"
           port: "21"
-          local-dir: ./dist/
-          server-dir: dist/
+          local-dir: ./docker/
           username: tools_shenzjd_com
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps
