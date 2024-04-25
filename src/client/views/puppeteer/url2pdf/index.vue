@@ -21,6 +21,16 @@
         <a-form-item label="设备比例">
           <a-input v-model:value="params.deviceScaleFactor" :disabled="params.device !== '自定义'" />
         </a-form-item>
+        <a-form-item label="waitUntil">
+          <a-select v-model:value="params.waitUntil">
+            <a-select-option value="networkidle0">networkidle0</a-select-option>
+            <a-select-option value="networkidle2">networkidle2</a-select-option>
+            <a-select-option value="domcontentloaded">
+              domcontentloaded
+            </a-select-option>
+            <a-select-option value="load">load</a-select-option>
+          </a-select>
+        </a-form-item>
         <a-form-item label="打印尺寸">
           <a-select v-model:value="params.format" allowClear>
             <a-select-option v-for="format in formats" :key="format" :value="format">
@@ -123,6 +133,7 @@ const params = ref({
   width: 375,
   height: 812,
   deviceScaleFactor: 3,
+  waitUntil: "networkidle2",
   url: "https://www.bilibili.com",
   displayHeaderFooter: false, // 是否显示页眉和页脚
   footerTemplate: "", // 页脚模板
