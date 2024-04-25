@@ -14,6 +14,12 @@ jobs:
       # 拉取代码
       - name: Checkout repo
         uses: actions/checkout@v3
+      # setup-qumu
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      # setup docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
       # 构建 Docker 镜像
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag tools.shenzjd.com:$(date +%s)

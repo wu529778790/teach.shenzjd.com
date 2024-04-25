@@ -7,13 +7,13 @@ WORKDIR /app
 COPY package*.json ./
 
 # 安装pnpm
-# RUN npm install -g pnpm
+RUN npm install -g pnpm
 
 # 安装项目依赖
-RUN npm install
+RUN pnpm install
 
 # 构建项目
-RUN npm run build
+RUN pnpm run build
 
 # 将当前目录的所有文件复制到镜像中
 COPY . .
