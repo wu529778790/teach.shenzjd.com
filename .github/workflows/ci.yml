@@ -48,8 +48,10 @@ jobs:
       - name: Upload to Deploy Server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: "ftp://106.55.242.160"
+          server: "106.55.242.160"
           port: "21"
           local-dir: "./dist/"
           username: "tools_shenzjd_com"
-          password: ${{ secrets.FTP_PASSWORD }}
+          password: ${{ secrets.FTP_PASSWORD }},
+          protocol: ftp,
+          log-level: debug
