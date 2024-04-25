@@ -4,7 +4,6 @@ const [messageApi] = message.useMessage();
 
 const request = axios.create({
     baseURL: '/',
-    timeout: 50000
 })
 
 // 添加请求拦截器
