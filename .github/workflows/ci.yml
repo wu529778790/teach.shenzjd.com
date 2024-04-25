@@ -50,8 +50,8 @@ jobs:
         with:
           server: "106.55.242.160"
           port: "21"
-          local-dir: "./dist/"
-          username: "tools_shenzjd_com"
-          password: ${{ secrets.FTP_PASSWORD }},
-          protocol: 'ftp',
-          log-level: 'debug'
+          local-dir: ./dist/
+          username: tools_shenzjd_com
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftp
+          log-level: "debug"
