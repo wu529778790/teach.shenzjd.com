@@ -22,7 +22,7 @@ jobs:
         run: mkdir -p docker
       # 将镜像保存到docker文件夹
       - name: Save image
-        run: docker save -o ./docker/tools.shenzjd.com-$(date +%d).tar tools.shenzjd.com:$(date +%d)
+        run: docker save -o ./docker/tools.shenzjd.com-v$(date +%d).tar tools.shenzjd.com:v$(date +%d)
       # 上传到服务器
       - name: Upload to Deploy Server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
