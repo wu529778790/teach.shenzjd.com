@@ -1,4 +1,7 @@
-FROM pnpm/pnpm:latest
+FROM node:20.12.2-alpine3.19
+
+# 安装pnpm
+RUN npm install -g pnpm
 
 # 设置工作目录
 WORKDIR /app
