@@ -16,13 +16,13 @@ jobs:
         uses: actions/checkout@v4
       # 构建 Docker 镜像
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag tools.shenzjd.com:$(date +%s)
+        run: docker build . --file Dockerfile --tag tools.shenzjd.com:v$(date +%d)
       # 创建docker文件夹
       - name: Create docker folder
         run: mkdir -p docker
       # 将镜像保存到docker文件夹
       - name: Save image
-        run: docker save -o ./docker/tools.shenzjd.com-$(date +%s).tar tools.shenzjd.com:$(date +%s)
+        run: docker save -o ./docker/tools.shenzjd.com-$(date +%d).tar tools.shenzjd.com:$(date +%d)
       # 上传到服务器
       - name: Upload to Deploy Server
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
