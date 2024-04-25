@@ -1,11 +1,10 @@
-FROM node:20.12.2-alpine3.19 AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
+FROM node:20.12.2-alpine3.19
 
-FROM base AS build
 # 设置工作目录
 WORKDIR /app
+
+# 安装pnpm
+RUN curl -fsSL https://get.pnpm.io/install.sh | sh -
 
 # 将当前目录的package.json和package-lock.json文件复制到镜像中
 COPY package*.json ./
