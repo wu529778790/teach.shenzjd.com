@@ -23,6 +23,8 @@ jobs:
       # pnpm
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.2
+        with:
+          version: latest
       # 构建 Docker 镜像
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag tools.shenzjd.com:$(date +%s)
