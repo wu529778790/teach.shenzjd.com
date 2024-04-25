@@ -53,6 +53,5 @@ jobs:
           local-dir: ./dist/
           username: tools_shenzjd_com
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
+          protocol: ftps
           log-level: verbose
-          timeout: 300000
