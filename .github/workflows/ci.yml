@@ -15,7 +15,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
       - name: Setup pnpm
-        uses: pnpm/action-setup@V3.0.0
+        uses: pnpm/action-setup@V3
       # 构建 Docker 镜像
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag tools.shenzjd.com:$(date +%s)
