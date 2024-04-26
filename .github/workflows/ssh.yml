@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd www/wwwroot/tools.shenzjd.com
+            cd /www/wwwroot/tools.shenzjd.com
             git pull
             pnpm install
             pnpm run build
