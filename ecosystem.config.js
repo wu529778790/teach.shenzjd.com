@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     apps: [{
         name: "tools.shenzjd.com",
         script: "pnpm",
