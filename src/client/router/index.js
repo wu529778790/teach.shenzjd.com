@@ -59,6 +59,41 @@ export const routes = [
       icon: () => h(InstagramOutlined),
       newPage: true
     },
+    redirect: "/wallpaper/recommend",
+    children: [
+      {
+        path: "/wallpaper/recommend",
+        component: () => import("@/views/wallpaper/recommend/index.vue"),
+        meta: {
+          title: "推荐",
+          menu: false
+        }
+      },
+      {
+        path: "/wallpaper/newest",
+        component: () => import("@/views/wallpaper/newest/index.vue"),
+        meta: {
+          title: "最新",
+          menu: false
+        }
+      },
+      {
+        path: "/wallpaper/classify",
+        component: () => import("@/views/wallpaper/classify/index.vue"),
+        meta: {
+          title: "分类",
+          menu: false
+        }
+      },
+      {
+        path: "/wallpaper/bing",
+        component: () => import("@/views/wallpaper/bing/index.vue"),
+        meta: {
+          title: "必应",
+          menu: false
+        }
+      }
+    ]
   }
 ];
 

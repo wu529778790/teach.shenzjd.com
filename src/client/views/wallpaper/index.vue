@@ -1,5 +1,8 @@
 <template>
-    <div class="wallpaper">
-        壁纸
-    </div>
+    <Menu />
+    <router-view />
 </template>
+
+<script setup>
+import Menu from './Menu/index.vue'
+</script>

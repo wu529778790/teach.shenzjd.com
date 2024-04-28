@@ -21,32 +21,54 @@ const router = useRouter();
 const generateMenus = routes => {
   return routes.map(route => {
     if (route?.meta?.menu === false) {
-      return route?.children && route?.children.length > 0 && generateMenus(route?.children)[0]
+      return route.children && route.children.length > 0 && generateMenus(route?.children)[0]
     } else {
-      return {
+      const menu = {
         key: route.path,
         icon: route?.meta?.icon,
         label: route?.meta?.title,
         title: route?.meta?.title,
-        meta: route?.meta,
-        children: route.children && route.children.length > 0 ? generateMenus(route.children) : undefined
+        meta: route?.meta
       }
+      if (route.children && route.children.length > 0) {
+        const children = generateMenus(route.children)
+        if (!(children.length === 1 || children[0] === undefined)) {
+          menu.children = generateMenus(route.children)
+        }
+      }
+      return menu
     }
   })
 }
 const menus = generateMenus(routes)
 
-const getCurrentKey = (routes) => {
+/**
+ * Returns the default current key from the given routes.
+ *
+ * @param {Array} routes - The array of routes to search through.
+ * @return {String} The default current key.
+ */
+const getDefaultCurrentKay = (routes) => {
   routes.forEach(route => {
     if (!route.redirect) {
       return route.path
     } else {
-      return getCurrentKey(route.children)
+      return getDefaultCurrentKay(route.children)
     }
   })
 }
-const currentKey = ref([getCurrentKey(routes)]);
+const currentKey = ref([getDefaultCurrentKay(routes)]);
 
+/**
+ * Handles the click event on a menu item. If the item has the `newPage` meta property set to true,
+ * it opens the corresponding route in a new tab. Otherwise, it navigates to the route.
+ *
+ * @param {Object} options - The options object containing the clicked item, key, and keyPath.
+ * @param {Object} options.item - The clicked menu item.
+ * @param {string} options.key - The key of the clicked menu item.
+ * @param {Array} options.keyPath - The path of the clicked menu item.
+ * @return {void} This function does not return anything.
+ */
 const handleClick = ({ item, key, keyPath }) => {
   if (item?.meta?.newPage === true) {
     const routeData = router.resolve({ path: key })
