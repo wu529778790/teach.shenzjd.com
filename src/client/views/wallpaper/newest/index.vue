@@ -1,23 +1,26 @@
 <template>
-    <div class="list">
-        <a-image v-for="item in list" :key="item" :src="item.url" />
-    </div>
+    <WaterFall :data="list" />
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
+import WaterFall from '../components/WaterFall/index.vue'
 import { getNewestApi } from './api'
 
-const list = ref([])
-
 onBeforeMount(async () => {
-    const res = await getNewestApi()
-    list.value = res.data.list
+    await getPage()
 })
-</script>
 
-<style lang="scss" scoped>
-.list {
-    overflow-y: auto;
+const list = ref([])
+const params = ref({
+    pageno: 1,
+    count: 30
+})
+
+const getPage = async () => {
+    const res = await getNewestApi({
+        ...params.value
+    })
+    list.value = res.data.list
 }
-</style>
+</script>
