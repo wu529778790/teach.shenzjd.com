@@ -28,6 +28,7 @@ const generateMenus = routes => {
         icon: route?.meta?.icon,
         label: route?.meta?.title,
         title: route?.meta?.title,
+        meta: route?.meta,
         children: route.children && route.children.length > 0 ? generateMenus(route.children) : undefined
       }
     }
@@ -46,8 +47,13 @@ const getCurrentKey = (routes) => {
 }
 const currentKey = ref([getCurrentKey(routes)]);
 
-const handleClick = ({ key }) => {
-  router.push(key);
+const handleClick = ({ item, key, keyPath }) => {
+  if (item?.meta?.newPage === true) {
+    const routeData = router.resolve({ path: key })
+    window.open(routeData.href, '_blank')
+  } else {
+    router.push(key);
+  }
 };
 </script>
 

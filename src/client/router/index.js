@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import { h } from 'vue';
-import { IeOutlined } from "@ant-design/icons-vue";
+import { IeOutlined, InstagramOutlined } from "@ant-design/icons-vue";
 
 export const routes = [
   {
@@ -51,7 +51,17 @@ export const routes = [
       }
     ],
   },
+  {
+    path: "/wallpaper",
+    component: () => import("@/views/wallpaper/index.vue"),
+    meta: {
+      title: "壁纸",
+      icon: () => h(InstagramOutlined),
+      newPage: true
+    },
+  }
 ];
+
 export const router = createRouter({
   history: createWebHashHistory(),
   routes
