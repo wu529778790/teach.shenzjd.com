@@ -14,7 +14,7 @@ const handleRequest = async (req, res, url, cacheKey) => {
         if (cachedData) {
             res.json(cachedData);
         } else {
-            const data = await request(url);
+            const data = await request({ url });
             cache.set(cacheKey, data, 3600);
             res.json(data);
         }
