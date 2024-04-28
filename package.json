@@ -16,8 +16,7 @@
     "dayjs": "^1.11.10",
     "tinymce": "^7.0.1",
     "vue": "^3.3.8",
-    "vue-router": "4",
-    "vue-waterfall-plugin-next": "^2.4.3"
+    "vue-router": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.0",

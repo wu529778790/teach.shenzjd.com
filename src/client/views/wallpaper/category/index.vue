@@ -1,17 +1,17 @@
 <template>
     <div v-for="item in list" :key="item">
-        <a-image :src="`https://www.bing.com${item.url}`" />
+        <a-image :src="item.icon" />
     </div>
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import { getBingApi } from './api'
+import { getCategoryApi } from './api'
 
 const list = ref([])
 
 onBeforeMount(async () => {
-    const res = await getBingApi()
-    list.value = res.images
+    const res = await getCategoryApi()
+    list.value = res.data
 })
 </script>

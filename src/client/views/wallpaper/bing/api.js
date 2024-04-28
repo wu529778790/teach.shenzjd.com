@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export const getRecommendApi = () => {
+export const getBingApi = () => {
     return request({
-        url: '/api/wallpaper/recommend',
+        url: '/api/wallpaper/bing',
         method: 'GET'
     })
 }

@@ -1,11 +1,12 @@
 <template>
-    <Waterfall :list="list" />
+    <div v-for="item in list" :key="item">
+        <a-image :src="item.url" />
+    </div>
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
 import { getRecommendApi } from './api'
-import Waterfall from '../components/Waterfall.vue';
 
 const list = ref([])
 

@@ -78,8 +78,8 @@ export const routes = [
         }
       },
       {
-        path: "/wallpaper/classify",
-        component: () => import("@/views/wallpaper/classify/index.vue"),
+        path: "/wallpaper/category",
+        component: () => import("@/views/wallpaper/category/index.vue"),
         meta: {
           title: "分类",
           menu: false

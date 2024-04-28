@@ -39,7 +39,7 @@ const menus = ref([
     {
         title: '分类',
         label: '分类',
-        key: '/wallpaper/classify',
+        key: '/wallpaper/category',
     },
     {
         title: '必应',
