@@ -1,10 +1,10 @@
 <template>
-    <WaterFall :data="list" />
+    <Wallpaper :data="list" />
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
-import WaterFall from '../components/WaterFall/index.vue'
+import Wallpaper from '../components/Wallpaper/index.vue'
 import { getNewestApi } from './api'
 
 onBeforeMount(async () => {
