@@ -24,8 +24,8 @@ const handleCache = async (req, res, url, cacheKey) => {
     }
 };
 
-// 获取 recommend 数据
-router.get("/recommend", async (req, res) => {
+// 根据 category 获取数据
+router.get("/getListByCategory", async (req, res) => {
     const cid = req.query.cid || 36;
     const start = req.query.start || 0;
     const count = req.query.count || 10;

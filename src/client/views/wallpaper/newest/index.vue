@@ -1,6 +1,6 @@
 <template>
-    <div v-for="item in list" :key="item">
-        <a-image :src="item.url" />
+    <div class="list">
+        <a-image v-for="item in list" :key="item" :src="item.url" />
     </div>
 </template>
 
@@ -15,3 +15,9 @@ onBeforeMount(async () => {
     list.value = res.data.list
 })
 </script>
+
+<style lang="scss" scoped>
+.list {
+    overflow-y: auto;
+}
+</style>

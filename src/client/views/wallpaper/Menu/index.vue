@@ -27,23 +27,18 @@ watch(
 
 const menus = ref([
     {
-        title: '推荐',
-        label: '推荐',
-        key: '/wallpaper/recommend',
-    },
-    {
-        title: '最新',
-        label: '最新',
+        title: '最新壁纸',
+        label: '最新壁纸',
         key: '/wallpaper/newest',
     },
     {
-        title: '分类',
-        label: '分类',
+        title: '分类壁纸',
+        label: '分类壁纸',
         key: '/wallpaper/category',
     },
     {
-        title: '必应',
-        label: '必应',
+        title: '必应美图',
+        label: '必应美图',
         key: '/wallpaper/bing',
     }
 ]);
@@ -65,7 +60,9 @@ function handleClick({ key }) {
 
 <style lang="scss" scoped>
 .menu-box {
+    height: 60px;
     display: flex;
+    align-items: center;
     border-bottom: 1px solid rgba(5, 5, 5, 0.06);
 
     .menu {

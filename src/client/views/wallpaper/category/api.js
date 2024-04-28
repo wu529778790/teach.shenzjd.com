@@ -6,3 +6,13 @@ export const getCategoryApi = () => {
         method: 'GET'
     })
 }
+
+export const getListByCategoryApi = (data) => {
+    return request({
+        url: '/api/wallpaper/getListByCategory',
+        method: 'GET',
+        params: {
+            ...data
+        }
+    })
+}
