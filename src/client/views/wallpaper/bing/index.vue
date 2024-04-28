@@ -1,11 +1,13 @@
 <template>
-    <div class="bing-list">
+    <FullpageScroll :list="list" />
+    <!-- <div class="bing-list">
         <a-image v-for="item in list" :key="item" :src="`https://www.bing.com${item.url}`" />
-    </div>
+    </div> -->
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from 'vue';
+import FullpageScroll from './components/FullpageScroll/index.vue'
 import { getBingApi } from './api'
 
 const list = ref([])
