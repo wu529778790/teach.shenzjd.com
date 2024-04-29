@@ -1,8 +1,9 @@
-import request from '@/utils/request'
+import request from "@/utils/request";
 
-export const getBingApi = () => {
-    return request({
-        url: '/api/wallpaper/bing',
-        method: 'GET'
-    })
-}
+export const getBingApi = (params) => {
+  return request({
+    url: "/api/wallpaper/bing",
+    method: "GET",
+    params,
+  });
+};

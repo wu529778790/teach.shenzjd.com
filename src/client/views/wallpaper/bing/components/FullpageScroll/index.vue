@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section v-for="(item, index) in list" :key="item.hsh" class="fullpage">
+        <section class="fullpage" v-for="(item, index) in list" :key="item.hsh">
             <img :src="`https://www.bing.com${item.url}`" alt="">
         </section>
     </div>
@@ -18,7 +18,6 @@ const calculateSectionOffsets = async () => {
     await nextTick()
     let sections = document.getElementsByTagName('section');
     for (let i = 0; i < props.list.length; i++) {
-        console.log(sections[i].offsetTop)
         offsets.value.push(sections[i].offsetTop);
     }
 }
@@ -71,8 +70,8 @@ const scrollToSection = (id, force = false) => {
     }, inMoveDelay);
 }
 
-onMounted(async () => {
-    await calculateSectionOffsets()
+onMounted(() => {
+    calculateSectionOffsets()
     window.addEventListener('mousewheel', handleMouseWheel, { passive: false })
 })
 </script>

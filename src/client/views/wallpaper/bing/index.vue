@@ -1,8 +1,5 @@
 <template>
-    <FullpageScroll :list="list" />
-    <!-- <div class="bing-list">
-        <a-image v-for="item in list" :key="item" :src="`https://www.bing.com${item.url}`" />
-    </div> -->
+    <FullpageScroll v-if="list.length > 0" :list="list" @addList="getList" />
 </template>
 
 <script setup>
@@ -13,9 +10,16 @@ import { getBingApi } from './api'
 const list = ref([])
 
 onBeforeMount(async () => {
-    const res = await getBingApi()
-    list.value = res.images
+    await getList()
 })
+
+const getList = async () => {
+    const res = await getBingApi({
+        idx: -1,
+        n: 30
+    })
+    list.value = [...list.value, ...res.images]
+}
 </script>
 
 <style lang="scss" scoped>
