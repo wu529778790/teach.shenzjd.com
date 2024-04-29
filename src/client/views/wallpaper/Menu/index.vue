@@ -1,10 +1,6 @@
 <template>
     <div class="menu-box">
         <a-menu class="menu" v-model:selectedKeys="currentKey" :items="menus" mode="horizontal" @click="handleClick" />
-        <div class="search">
-            <a-input class="search-input" placeholder="Search" v-model:value="searchQuery" @keyup.enter="search" />
-            <a-button class="search-btn" @click="search">搜索</a-button>
-        </div>
     </div>
 </template>
 
@@ -43,15 +39,6 @@ const menus = ref([
     }
 ]);
 
-const searchQuery = ref('');
-function search() {
-    router.push({
-        path: '/search',
-        query: {
-            content: searchQuery.value
-        }
-    })
-}
 
 function handleClick({ key }) {
     router.push(key);
@@ -60,28 +47,22 @@ function handleClick({ key }) {
 
 <style lang="scss" scoped>
 .menu-box {
-    height: 60px;
-    display: flex;
-    align-items: center;
+    position: fixed;
+    z-index: 99999;
+    height: 50px;
+    width: 100%;
+    line-height: 50px;
+    font-size: 16px;
+    background-color: #fff;
+    opacity: 0.77;
     border-bottom: 1px solid rgba(5, 5, 5, 0.06);
 
-    .menu {
-        flex: 1;
-        border-bottom: none;
+    &:hover {
+        opacity: 1;
     }
 
-    .search {
-        display: flex;
-        align-items: center;
-        padding-right: 20px;
-
-        .search-input {
-            width: 300px;
-        }
-
-        .search-btn {
-            margin-left: 20px;
-        }
+    .menu {
+        border-bottom: none;
     }
 }
 </style>

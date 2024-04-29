@@ -1,7 +1,8 @@
 <template>
-    <div>
-        <section class="fullpage" v-for="(item, index) in list" :key="item.hsh">
-            <img :src="`https://www.bing.com${item.url}`" alt="">
+    <div class="fullpage-scroll">
+        <section class="section" v-for="(item, index) in list" :key="item.hsh" :style="{
+            backgroundImage: `url(https://www.bing.com${item.url})`,
+        }">
         </section>
     </div>
 </template>
@@ -77,12 +78,15 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.fullpage {
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.fullpage-scroll {
+    flex: 1;
+
+    .section {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        color: #fff;
+        position: relative;
+    }
 }
 </style>

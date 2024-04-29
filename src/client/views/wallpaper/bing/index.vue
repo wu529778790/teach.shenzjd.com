@@ -21,9 +21,3 @@ const getList = async () => {
     list.value = [...list.value, ...res.images]
 }
 </script>
-
-<style lang="scss" scoped>
-.bing-list {
-    overflow-y: auto;
-}
-</style>
