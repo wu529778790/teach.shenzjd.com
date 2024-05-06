@@ -1,24 +1,40 @@
 <template>
-    <div class="waterfall">
-        <ImgBox v-for="(item, index) in data" :key="item.id" :src="item.url" />
+  <div class="waterfall">
+    <div class="item" v-for="(item, index) in data" :key="item.id">
+      <img class="img" :src="item.url" />
     </div>
+  </div>
 </template>
 
 <script setup>
-import ImgBox from './imgBox.vue'
-
 const props = defineProps({
-    data: {
-        type: Array,
-        default: () => []
-    }
-})
+  data: {
+    type: Array,
+    default: () => [],
+  },
+});
 </script>
 
 <style lang="scss" scoped>
 .waterfall {
-    overflow-y: auto;
-    display: flex;
-    flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: masonry;
+  grid-gap: 0px;
+
+  .item {
+    position: relative;
+    counter-increment: item-counter;
+    &:after {
+      position: absolute;
+      color: white;
+      left: 0;
+      top: 0;
+      content: counter(item-counter);
+    }
+    .img {
+      width: 100%;
+    }
+  }
 }
 </style>

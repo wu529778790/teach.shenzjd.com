@@ -30,5 +30,6 @@ const getPage = async () => {
 <style lang="scss" scoped>
 .newest {
   margin-top: 50px;
+  overflow-y: auto;
 }
 </style>
