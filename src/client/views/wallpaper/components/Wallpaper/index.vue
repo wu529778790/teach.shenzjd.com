@@ -19,8 +19,6 @@ const props = defineProps({
 .waterfall {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: masonry;
-  grid-gap: 0px;
 
   .item {
     position: relative;
