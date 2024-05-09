@@ -31,13 +31,16 @@ const getPage = async () => {
   const res = await getNewestApi({
     ...params.value,
   });
-  list.value = res.data.map((item) => {
+  list.value = res.data.map((item, index) => {
     return {
       ...item,
-      decode360Url: decode360Url({ oldUrl: item.url }),
+      decode360Url: decode360Url({
+        oldUrl: item.url,
+        width: index % 5 === 0 ? 960 : 480,
+        height: index % 5 === 0 ? 540 : 270,
+      }),
     };
   });
-  console.log(list.value);
 };
 </script>
 

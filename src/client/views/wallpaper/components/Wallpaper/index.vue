@@ -1,6 +1,13 @@
 <template>
   <div class="waterfall">
-    <div class="item" v-for="(item, index) in data" :key="item.id">
+    <div
+      v-for="(item, index) in data"
+      :key="item.id"
+      class="item"
+      :style="{
+        width: calcWidthOrHeight(index),
+        height: calcWidthOrHeight(index),
+      }">
       <img class="img" :src="item.decode360Url" />
     </div>
   </div>
@@ -13,14 +20,19 @@ const props = defineProps({
     default: () => [],
   },
 });
+
+const calcWidthOrHeight = (index) => {
+  const row = Math.floor(index / 5);
+  const column = index % 5;
+  return column === 2 * (row % 3) ? "50%" : "25%";
+};
 </script>
 
 <style lang="scss" scoped>
 .waterfall {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-
+  counter-reset: item-counter;
   .item {
+    float: left;
     position: relative;
     counter-increment: item-counter;
     &:after {
