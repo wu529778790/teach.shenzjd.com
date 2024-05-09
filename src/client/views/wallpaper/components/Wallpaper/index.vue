@@ -1,7 +1,7 @@
 <template>
   <div class="waterfall">
     <div class="item" v-for="(item, index) in data" :key="item.id">
-      <img class="img" :src="item.url" />
+      <img class="img" :src="item.decode360Url" />
     </div>
   </div>
 </template>

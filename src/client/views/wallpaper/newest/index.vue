@@ -15,15 +15,29 @@ onBeforeMount(async () => {
 
 const list = ref([]);
 const params = ref({
-  pageno: 1,
+  start: 0,
   count: 30,
 });
+
+// 解码360图片的链接，获得指定尺寸图片
+function decode360Url({ oldUrl, width = 480, height = 270, quality = 0 }) {
+  return oldUrl.replace(
+    "r\/__85",
+    "m\/" + parseInt(width) + "_" + parseInt(height) + "_" + quality
+  );
+}
 
 const getPage = async () => {
   const res = await getNewestApi({
     ...params.value,
   });
-  list.value = res.data.list;
+  list.value = res.data.map((item) => {
+    return {
+      ...item,
+      decode360Url: decode360Url({ oldUrl: item.url }),
+    };
+  });
+  console.log(list.value);
 };
 </script>
 

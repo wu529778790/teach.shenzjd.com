@@ -1,3 +1,7 @@
+//tags http://cdn.apc.360.cn/index.php?c=WallPaper&a=getAllCategoriesV2&from=360chrome
+//new http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=【0开始】&count=【加载数】&from=360chrome
+//专区 http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByCategory&cid=【分类ID】&start=【0开始】&count=【加载数】&from=360chrome
+//小鸟壁纸 http://wp.birdpaper.com.cn/intf/newestList?pageno=${pageno}&count=${count}
 import express from "express";
 import NodeCache from "node-cache";
 import request from "../utils/request.js";
@@ -43,10 +47,10 @@ router.get("/category", async (req, res) => {
 
 // 获取最新列表数据
 router.get("/newest", async (req, res) => {
-  const pageno = req.query.pageno || 0;
+  const start = req.query.start || 0;
   const count = req.query.count || 10;
-  const url = `http://wp.birdpaper.com.cn/intf/newestList?pageno=${pageno}&count=${count}`;
-  const cacheKey = `newestList_${pageno}_${count}`;
+  const url = `http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=${start}&count=${count}&from=360chrome`;
+  const cacheKey = `newest_${start}_${count}`;
   await handleCache(req, res, url, cacheKey);
 });
 
