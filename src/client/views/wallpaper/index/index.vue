@@ -1,11 +1,12 @@
 <template>
   <div class="index">
     <Wallpaper :data="list" />
+    <div class="end">end</div>
   </div>
 </template>
 
 <script setup>
-import { onBeforeMount, ref, watch } from "vue";
+import { onBeforeMount, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import Wallpaper from "../components/Wallpaper/index.vue";
 import { getNewestApi, getListByCategoryApi } from "./api";
@@ -16,7 +17,7 @@ const route = useRoute();
 const list = ref([]);
 const params = ref({
   start: 0,
-  count: 30,
+  count: 40,
   cid: route.query.cid,
 });
 
@@ -58,11 +59,20 @@ const getNewest = async () => {
     ...params.value,
     cid: undefined,
   });
-  list.value = handlerData(res.data);
+  list.value = list.value.concat(handlerData(res.data));
 };
 
 onBeforeMount(() => {
-  getNewest();
+  // getNewest();
+});
+
+onMounted(() => {
+  const endObserver = new IntersectionObserver((entries) => {
+    if (entries[0].intersectionRatio <= 0) return;
+    params.value.start += params.value.count;
+    getNewest();
+  });
+  endObserver.observe(document.querySelector(".end"));
 });
 </script>
 
