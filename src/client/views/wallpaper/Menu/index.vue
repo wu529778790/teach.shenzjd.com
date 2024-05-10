@@ -4,23 +4,18 @@
     <div class="menu">
       <div
         class="item"
-        :class="{ itemActive: currentKey[0] === '/wallpaper/newest' }"
-        @click="handleClick({ key: '/wallpaper/newest' })"
-      >
+        :class="{ itemActive: currentKey[0] === '/wallpaper/index' }"
+        @click="handleClick({ key: '/wallpaper/index' })">
         最新壁纸
       </div>
-      <div
-        class="item"
-        :class="{ itemActive: currentKey[0] === '/wallpaper/category' }"
-        @click="handleClick({ key: '/wallpaper/category' })"
-      >
+      <div class="item category">
         分类壁纸
+        <Category class="category-box" />
       </div>
       <div
         class="item"
         :class="{ itemActive: currentKey[0] === '/wallpaper/bing' }"
-        @click="handleClick({ key: '/wallpaper/bing' })"
-      >
+        @click="handleClick({ key: '/wallpaper/bing' })">
         必应美图
       </div>
     </div>
@@ -30,9 +25,10 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import Category from "./Category/index.vue";
 
 const router = useRouter();
-const currentKey = ref(["/wallpaper/newest"]);
+const currentKey = ref(["/wallpaper/index"]);
 
 watch(
   () => router.currentRoute.value.path,
@@ -101,6 +97,18 @@ function handleClick({ key }) {
     }
     .itemActive {
       color: #1677ff;
+    }
+    .category {
+      position: relative;
+      &:hover {
+        .category-box {
+          visibility: visible;
+        }
+      }
+      .category-box {
+        position: absolute;
+        visibility: hidden;
+      }
     }
   }
 }

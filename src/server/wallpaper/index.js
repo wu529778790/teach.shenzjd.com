@@ -1,7 +1,7 @@
 //tags http://cdn.apc.360.cn/index.php?c=WallPaper&a=getAllCategoriesV2&from=360chrome
 //new http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=【0开始】&count=【加载数】&from=360chrome
 //专区 http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByCategory&cid=【分类ID】&start=【0开始】&count=【加载数】&from=360chrome
-//小鸟壁纸 http://wp.birdpaper.com.cn/intf/newestList?pageno=${pageno}&count=${count}
+
 import express from "express";
 import NodeCache from "node-cache";
 import request from "../utils/request.js";
@@ -40,7 +40,8 @@ router.get("/getListByCategory", async (req, res) => {
 
 // 获取 category 数据
 router.get("/category", async (req, res) => {
-  const url = `http://wp.birdpaper.com.cn/intf/getCategory`;
+  // const url = `http://wp.birdpaper.com.cn/intf/getCategory`;
+  const url = `http://cdn.apc.360.cn/index.php?c=WallPaper&a=getAllCategoriesV2&from=360chrome`;
   const cacheKey = "category";
   await handleCache(req, res, url, cacheKey);
 });
@@ -49,6 +50,7 @@ router.get("/category", async (req, res) => {
 router.get("/newest", async (req, res) => {
   const start = req.query.start || 0;
   const count = req.query.count || 10;
+  // const url = `http://wp.birdpaper.com.cn/intf/newestList?pageno=${pageno}&count=${count}`;
   const url = `http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByOrder&order=create_time&start=${start}&count=${count}&from=360chrome`;
   const cacheKey = `newest_${start}_${count}`;
   await handleCache(req, res, url, cacheKey);

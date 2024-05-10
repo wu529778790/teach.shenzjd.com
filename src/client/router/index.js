@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory } from "vue-router";
-import { h } from 'vue';
+import { h } from "vue";
 import { IeOutlined, InstagramOutlined } from "@ant-design/icons-vue";
 
 export const routes = [
@@ -8,7 +8,7 @@ export const routes = [
     component: () => import("./Layout/index.vue"),
     redirect: "/puppeteer",
     meta: {
-      menu: false
+      menu: false,
     },
     children: [
       {
@@ -21,24 +21,26 @@ export const routes = [
         children: [
           {
             path: "/puppeteer/url2screenshot",
-            component: () => import("@/views/puppeteer/url2screenshot/index.vue"),
+            component: () =>
+              import("@/views/puppeteer/url2screenshot/index.vue"),
             meta: {
               title: "URL截图",
-            }
+            },
           },
           {
             path: "/puppeteer/string2screenshot",
-            component: () => import("@/views/puppeteer/string2screenshot/index.vue"),
+            component: () =>
+              import("@/views/puppeteer/string2screenshot/index.vue"),
             meta: {
               title: "字符串截图",
-            }
+            },
           },
           {
             path: "/puppeteer/url2pdf",
             component: () => import("@/views/puppeteer/url2pdf/index.vue"),
             meta: {
               title: "URL转PDF",
-            }
+            },
           },
           // {
           //   path: "/puppeteer/string2pdf",
@@ -48,7 +50,7 @@ export const routes = [
           //   }
           // }
         ],
-      }
+      },
     ],
   },
   {
@@ -57,41 +59,33 @@ export const routes = [
     meta: {
       title: "壁纸",
       icon: () => h(InstagramOutlined),
-      newPage: true
+      newPage: true,
     },
-    redirect: "/wallpaper/newest",
+    redirect: "/wallpaper/index",
     children: [
       {
-        path: "/wallpaper/newest",
-        component: () => import("@/views/wallpaper/newest/index.vue"),
+        path: "/wallpaper/index",
+        component: () => import("@/views/wallpaper/index/index.vue"),
         meta: {
           title: "最新壁纸",
-          menu: false
-        }
-      },
-      {
-        path: "/wallpaper/category",
-        component: () => import("@/views/wallpaper/category/index.vue"),
-        meta: {
-          title: "分类壁纸",
-          menu: false
-        }
+          menu: false,
+        },
       },
       {
         path: "/wallpaper/bing",
         component: () => import("@/views/wallpaper/bing/index.vue"),
         meta: {
           title: "必应壁纸",
-          menu: false
-        }
-      }
-    ]
-  }
+          menu: false,
+        },
+      },
+    ],
+  },
 ];
 
 export const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
 });
 
 export function setupRouter(app) {
