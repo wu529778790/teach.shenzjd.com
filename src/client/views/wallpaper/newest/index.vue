@@ -8,6 +8,7 @@
 import { onBeforeMount, ref } from "vue";
 import Wallpaper from "../components/Wallpaper/index.vue";
 import { getNewestApi } from "./api";
+import { decode360Url } from "../utils";
 
 onBeforeMount(async () => {
   await getPage();
@@ -19,14 +20,6 @@ const params = ref({
   count: 30,
 });
 
-// 解码360图片的链接，获得指定尺寸图片
-function decode360Url({ oldUrl, width = 480, height = 270, quality = 0 }) {
-  return oldUrl.replace(
-    "r\/__85",
-    "m\/" + parseInt(width) + "_" + parseInt(height) + "_" + quality
-  );
-}
-
 const getPage = async () => {
   const res = await getNewestApi({
     ...params.value,
@@ -36,8 +29,6 @@ const getPage = async () => {
       ...item,
       decode360Url: decode360Url({
         oldUrl: item.url,
-        width: index % 5 === 0 ? 960 : 480,
-        height: index % 5 === 0 ? 540 : 270,
       }),
     };
   });
