@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import ImgBox from "./ImgBox.vue";
+import ImgBox from "./imgBox.vue";
 
 const props = defineProps({
   data: {
