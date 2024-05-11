@@ -2,13 +2,13 @@
   <div class="index">
     <Wallpaper :data="list" />
     <div class="loadmore">
-      {{ params.start >= list.length ? "没有更多了" : "加载更多" }}
+      {{ loadmore ? "正在加载。。。" : "没有更多了" }}
     </div>
   </div>
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import Wallpaper from "../components/Wallpaper/index.vue";
 import { getNewestApi, getListByCategoryApi } from "./api";
@@ -40,7 +40,6 @@ const getListByCategory = async () => {
     ...params.value,
   });
   const newList = handlerData(res.data);
-  if (newList.length === 0) return;
   list.value = list.value.concat(newList);
 };
 
@@ -67,8 +66,12 @@ const getNewest = async () => {
   list.value = list.value.concat(handlerData(res.data));
 };
 
+const loadmore = ref(true);
 const getList = () => {
-  if (params.value.start > list.value.length && params.value.start > 0) return;
+  if (params.value.start > list.value.length && params.value.start > 0) {
+    loadmore.value = false;
+    return;
+  }
   if (params.value.cid) {
     getListByCategory();
   } else {
