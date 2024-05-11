@@ -39,7 +39,7 @@ const getListByCategory = async () => {
   const res = await getListByCategoryApi({
     ...params.value,
   });
-  const newList = handlerData(res.data.list);
+  const newList = handlerData(res.data);
   if (newList.length === 0) return;
   list.value = list.value.concat(newList);
 };

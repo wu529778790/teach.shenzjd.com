@@ -33,7 +33,8 @@ router.get("/getListByCategory", async (req, res) => {
   const cid = req.query.cid || 36;
   const start = req.query.start || 0;
   const count = req.query.count || 10;
-  const url = `http://wp.birdpaper.com.cn/intf/GetListByCategory?cids=${cid}&pageno=${start}&count=${count}`;
+  // const url = `http://wp.birdpaper.com.cn/intf/GetListByCategory?cids=${cid}&pageno=${start}&count=${count}`;
+  const url = `http://wallpaper.apc.360.cn/index.php?c=WallPaper&a=getAppsByCategory&cid=${cid}&start=${start}&count=${count}&from=360chrome`;
   const cacheKey = `birdpaper_${cid}_${start}_${count}`;
   await handleCache(req, res, url, cacheKey);
 });
