@@ -1,7 +1,9 @@
 <template>
   <div class="index">
     <Wallpaper :data="list" />
-    <div class="end">end</div>
+    <div class="loadmore">
+      {{ params.start >= list.length ? "没有更多了" : "加载更多" }}
+    </div>
   </div>
 </template>
 
@@ -31,6 +33,7 @@ const handlerData = (data) => {
     };
   });
 };
+
 // 获取分类壁纸
 const getListByCategory = async () => {
   const res = await getListByCategoryApi({
@@ -50,7 +53,7 @@ watch(
   (value) => {
     if (value) {
       params.value.cid = value;
-      getListByCategory();
+      getList();
     }
   },
   {
@@ -67,24 +70,21 @@ const getNewest = async () => {
   list.value = list.value.concat(handlerData(res.data));
 };
 
-onBeforeMount(() => {
-  // getNewest();
-});
-
 const getList = () => {
+  if (params.value.start > list.value.length && params.value.start > 0) return;
   if (params.value.cid) {
     getListByCategory();
   } else {
     getNewest();
   }
+  params.value.start += params.value.count;
 };
 onMounted(() => {
   const endObserver = new IntersectionObserver((entries) => {
     if (entries[0].intersectionRatio <= 0) return;
-    params.value.start += params.value.count;
     getList();
   });
-  endObserver.observe(document.querySelector(".end"));
+  endObserver.observe(document.querySelector(".loadmore"));
 });
 </script>
 
@@ -92,5 +92,9 @@ onMounted(() => {
 .index {
   margin-top: 50px;
   overflow-y: auto;
+  .loadmore {
+    text-align: center;
+    padding: 16px;
+  }
 }
 </style>
