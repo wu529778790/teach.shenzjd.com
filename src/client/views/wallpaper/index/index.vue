@@ -40,21 +40,18 @@ const getListByCategory = async () => {
     ...params.value,
   });
   const newList = handlerData(res.data.list);
-  // 如果不是同一分类
-  if (list.value[0]?.class_id !== newList[0].class_id) {
-    list.value = newList;
-  } else {
-    list.value = list.value.concat(newList);
-  }
+  if (newList.length === 0) return;
+  list.value = list.value.concat(newList);
 };
 
 watch(
   () => route.query.cid,
-  (value) => {
-    if (value) {
-      params.value.cid = value;
-      getList();
-    }
+  (newValue, oldValue) => {
+    if (newValue === oldValue) return;
+    params.value.cid = newValue;
+    params.value.start = 0;
+    list.value = [];
+    getList();
   },
   {
     deep: true,
