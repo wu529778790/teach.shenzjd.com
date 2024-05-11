@@ -1,6 +1,6 @@
 <template>
   <div class="img-box">
-    <img class="img" :src="data.decode360Url" />
+    <img class="img" ref="imgRef" :src="src" />
     <div class="download">
       <div
         v-for="item in downloadArr"
@@ -14,12 +14,27 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
 import { decode360Url } from "../../utils";
 
 const props = defineProps({
   data: {
     type: Object,
   },
+});
+
+const src = ref(
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+);
+
+const imgRef = ref(null);
+onMounted(() => {
+  const imgObserver = new IntersectionObserver((entries) => {
+    if (entries[0].intersectionRatio <= 0) return;
+    src.value = props.data.decode360Url;
+    imgObserver.unobserve(document.querySelector(".img"));
+  });
+  imgObserver.observe(imgRef.value);
 });
 
 const downloadArr = [
