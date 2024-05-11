@@ -36,13 +36,18 @@ const getListByCategory = async () => {
   const res = await getListByCategoryApi({
     ...params.value,
   });
-  list.value = handlerData(res.data.list);
+  const newList = handlerData(res.data.list);
+  // 如果不是同一分类
+  if (list.value[0]?.class_id !== newList[0].class_id) {
+    list.value = newList;
+  } else {
+    list.value = list.value.concat(newList);
+  }
 };
 
 watch(
   () => route.query.cid,
   (value) => {
-    console.log(value);
     if (value) {
       params.value.cid = value;
       getListByCategory();
@@ -66,11 +71,18 @@ onBeforeMount(() => {
   // getNewest();
 });
 
+const getList = () => {
+  if (params.value.cid) {
+    getListByCategory();
+  } else {
+    getNewest();
+  }
+};
 onMounted(() => {
   const endObserver = new IntersectionObserver((entries) => {
     if (entries[0].intersectionRatio <= 0) return;
     params.value.start += params.value.count;
-    getNewest();
+    getList();
   });
   endObserver.observe(document.querySelector(".end"));
 });
