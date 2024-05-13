@@ -58,9 +58,12 @@ const handleDownload = (item) => {
         : item.split("x")[1],
     quality: 100,
   });
-  window.open(
-    `http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=${url}`
-  );
+  const a = document.createElement("a");
+  a.href = `http://image.baidu.com/search/down?tn=download&word=download&ie=utf8&fr=detail&url=${url}`;
+  a.style = "display: none";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 };
 </script>
 
