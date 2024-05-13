@@ -1,6 +1,6 @@
 <template>
   <div class="img-box">
-    <img class="img" ref="imgRef" :src="src" />
+    <img class="img" ref="imgRef" :src="src" @click="fullscreen" />
     <div class="download">
       <div
         v-for="item in downloadArr"
@@ -65,8 +65,35 @@ const handleDownload = (item) => {
   a.click();
   document.body.removeChild(a);
 };
+
+const fullscreen = () => {
+  // 动态创建img标签，添加到body
+  const img = document.createElement("img");
+  img.src = decode360Url({
+    oldUrl: props.data.url,
+    width: "1920",
+    height: "1080",
+    quality: 0,
+  });
+  img.className = "fullscreen";
+  document.body.appendChild(img);
+  img.addEventListener("click", () => {
+    document.body.removeChild(img);
+  });
+};
 </script>
 
+<style>
+.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  object-fit: cover;
+}
+</style>
 <style lang="scss" scoped>
 .img-box {
   width: 25%;
