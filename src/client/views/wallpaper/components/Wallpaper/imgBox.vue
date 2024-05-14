@@ -1,6 +1,18 @@
 <template>
   <div class="img-box">
-    <img class="img" ref="imgRef" :src="src" @click="fullscreen" />
+    <img
+      class="img"
+      ref="imgRef"
+      :src="src"
+      :alt="data.tag"
+      @click="openFullScreen" />
+    <Teleport v-if="fullscreenSrc" to="body">
+      <img
+        class="fullscreen"
+        :src="fullscreenSrc"
+        :alt="data.tag"
+        @click="closeFullScreen" />
+    </Teleport>
     <div class="download">
       <div
         v-for="item in downloadArr"
@@ -66,20 +78,18 @@ const handleDownload = (item) => {
   document.body.removeChild(a);
 };
 
-const fullscreen = () => {
-  // 动态创建img标签，添加到body
-  const img = document.createElement("img");
-  img.src = decode360Url({
+const fullscreenSrc = ref("");
+const openFullScreen = () => {
+  fullscreenSrc.value = decode360Url({
     oldUrl: props.data.url,
     width: "1920",
     height: "1080",
     quality: 0,
   });
-  img.className = "fullscreen";
-  document.body.appendChild(img);
-  img.addEventListener("click", () => {
-    document.body.removeChild(img);
-  });
+};
+
+const closeFullScreen = () => {
+  fullscreenSrc.value = "";
 };
 </script>
 
@@ -92,6 +102,7 @@ const fullscreen = () => {
   height: 100vh;
   z-index: 999;
   object-fit: cover;
+  background-color: #eee;
 }
 </style>
 <style lang="scss" scoped>
