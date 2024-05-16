@@ -53,34 +53,6 @@ export const routes = [
       },
     ],
   },
-  {
-    path: "/wallpaper",
-    component: () => import("@/views/wallpaper/index.vue"),
-    meta: {
-      title: "壁纸",
-      icon: () => h(InstagramOutlined),
-      newPage: true,
-    },
-    redirect: "/wallpaper/index",
-    children: [
-      {
-        path: "/wallpaper/index",
-        component: () => import("@/views/wallpaper/index/index.vue"),
-        meta: {
-          title: "最新壁纸",
-          menu: false,
-        },
-      },
-      {
-        path: "/wallpaper/bing",
-        component: () => import("@/views/wallpaper/bing/index.vue"),
-        meta: {
-          title: "必应壁纸",
-          menu: false,
-        },
-      },
-    ],
-  },
 ];
 
 export const router = createRouter({
