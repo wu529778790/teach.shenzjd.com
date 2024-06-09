@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
-    "@tinymce/tinymce-vue": "^5.1.1",
+    "@bytemd/plugin-gfm": "^1.21.0",
+    "@bytemd/vue-next": "^1.21.0",
     "ant-design-vue": "^4.1.2",
     "axios": "^1.6.8",
+    "bytemd": "^1.21.0",
     "dayjs": "^1.11.10",
-    "tinymce": "^7.0.1",
     "vue": "^3.3.8",
     "vue-router": "4"
   },

@@ -72,7 +72,6 @@ export default defineConfig({
           // vue: "Vue",
           // "vue-router": "VueRouter",
           // axios: "axios",
-          // "tinymce-vue": "tinymceVue",
           // "ant-design-vue": "antd",
         }),
       ],
