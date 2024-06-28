@@ -13,7 +13,7 @@ jobs:
     # steps:
     #   - name: Triggering deployment using API endpoint
     #     run: |
-    #       curl -X POST -H "Content-Type: application/json" -d '{}' https://wallpaper.shenzjd.com/api/deploy
+    #       curl -X POST -H "Content-Type: application/json" -d '{}' https://teach.shenzjd.com/api/deploy
 
     # ssh部署
     steps:
@@ -25,8 +25,8 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            cd /www/wwwroot/wallpaper.shenzjd.com
+            cd /www/wwwroot/teach.shenzjd.com
             git pull
             pnpm install
             pnpm run build
-            pm2 restart wallpaper.shenzjd.com
+            pm2 restart teach.shenzjd.com

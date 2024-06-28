@@ -1,7 +1,7 @@
 export default {
   apps: [
     {
-      name: "wallpaper.shenzjd.com",
+      name: "teach.shenzjd.com",
       node_args: "--experimental-modules",
       script: "pnpm",
       args: "run start",
