@@ -32,6 +32,12 @@ jobs:
       - name: 构建项目
         run: pnpm run build
 
+      - name: 获取并递增版本号
+        id: version
+        run: |
+          NEW_VERSION=$(echo $(cat VERSION) | awk -F. '{printf("%d.%d.%d\n",$1,$2,$3+1)}')
+          echo "::set-output name=new-version::$NEW_VERSION"
+
       - name: 设置Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -41,11 +47,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: 获取并递增版本号
-        id: version
-        run: |
-          NEW_VERSION=$(echo $(cat VERSION) | awk -F. '{printf("%d.%d.%d\n",$1,$2,$3+1)}')
-          echo "::set-output name=new-version::$NEW_VERSION"
+      - name: 构建并推送Docker镜像
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          push: true
+          tags: wu529778790/teach.shenzjd.com:${{ steps.version.outputs.new-version }}
 
       - name: 更新版本号并推送更改
         env:
@@ -60,10 +67,3 @@ jobs:
           git commit -m "chore: bump version to ${{ steps.version.outputs.new-version }}"
           git push
           git push origin --tags
-
-      - name: 构建并推送Docker镜像
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: wu529778790/teach.shenzjd.com:${{ steps.version.outputs.new-version }}
