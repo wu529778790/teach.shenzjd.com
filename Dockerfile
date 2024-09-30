@@ -15,9 +15,7 @@ COPY public ./public
 COPY dist ./dist
 
 # 安装项目依赖
-RUN npm install pnpm -g
-# 清除pnpm缓存
-RUN pnpm store prune
+RUN npm install pnpm
 # 使用pnpm安装生产依赖
 RUN pnpm install
 
