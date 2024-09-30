@@ -2,6 +2,14 @@
 
 ## 踩坑点
 
+windows电脑package.json添加
+
+```json
+  "resolutions": {
+    "bin-wrapper": "npm:bin-wrapper-china"
+  }
+```
+
 基本都是 Linux 部署的问题，本地跑的时候都很顺利
 
 ### 检查 puppeteer 所缺少的依赖项
