@@ -1,25 +1,26 @@
-FROM node:20.12.2-alpine3.19
+# 使用官方Node.js运行时镜像作为基础镜像
+FROM node:19-alpine
 
 # 设置工作目录
-WORKDIR /app
+WORKDIR /usr/src/app
 
-# 将当前目录的package.json和package-lock.json文件复制到镜像中
+# 复制package.json和package-lock.json到工作目录
 COPY package*.json ./
+# 复制pnpm-lock.yaml到工作目录
+COPY pnpm-lock.yaml ./
 
-# 安装pnpm
-RUN npm install -g pnpm
+# 复制项目源代码到工作目录, 排除掉src/client下的文件
+COPY src/server ./src/server
+COPY public ./public
+COPY dist ./dist
 
 # 安装项目依赖
-RUN pnpm install --ignore-scripts
+RUN npm install pnpm -g
+# 使用pnpm安装生产依赖
+RUN pnpm install
 
+# 暴露应用端口
+EXPOSE 3001
 
-# 将当前目录的所有文件复制到镜像中
-COPY . .
-
-# 构建项目
-RUN npm run build
-
-EXPOSE 3000
-
-# 启动应用程序
-CMD [ "npm", "start" ]
+# 启动应用
+CMD ["npm", "start"]

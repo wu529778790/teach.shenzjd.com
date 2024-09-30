@@ -2,7 +2,12 @@
   <a-layout class="layout">
     <a-layout-sider breakpoint="xl" collapsed-width="0">
       <div class="logo">神族九帝</div>
-      <a-menu v-model:selectedKeys="currentKey" mode="inline" theme="dark" :items="menus" :openKeys="['/puppeteer']"
+      <a-menu
+        v-model:selectedKeys="currentKey"
+        mode="inline"
+        theme="dark"
+        :items="menus"
+        :openKeys="['/puppeteer']"
         @click="handleClick" />
     </a-layout-sider>
     <a-layout-content class="content">
@@ -14,33 +19,54 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { routes } from '@/router/'
+import { routes } from "@/router/";
 
 const router = useRouter();
 
-const generateMenus = routes => {
-  return routes.map(route => {
-    if (route?.meta?.menu === false) {
-      return route.children && route.children.length > 0 && generateMenus(route?.children)[0]
-    } else {
-      const menu = {
-        key: route.path,
-        icon: route?.meta?.icon,
-        label: route?.meta?.title,
-        title: route?.meta?.title,
-        meta: route?.meta
-      }
-      if (route.children && route.children.length > 0) {
-        const children = generateMenus(route.children)
-        if (!(children.length === 1 || children[0] === undefined)) {
-          menu.children = generateMenus(route.children)
+const generateMenus = (routes, parentKeys = []) => {
+  return routes
+    .map((route) => {
+      console.log("route", route);
+
+      // 如果当前路由不应该显示在菜单中，则检查其子路由
+      if (route?.meta?.menu === false) {
+        return route.children && route.children.length > 0
+          ? generateMenus(route.children, [...parentKeys, route.path])
+          : [];
+      } else {
+        // 创建菜单项
+        const currentKeys = [...parentKeys, route.path];
+        console.log("currentKeys", currentKeys);
+
+        const normalizedKeys = currentKeys.join("/").replace(/^\/|\/$/g, "");
+        console.log("normalizedKeys", normalizedKeys);
+
+        const menuItem = {
+          key: normalizedKeys,
+          icon: route?.meta?.icon,
+          label: route?.meta?.title,
+          title: route?.meta?.title,
+          meta: route?.meta,
+        };
+
+        // 如果有子路由，递归生成子菜单
+        if (route.children && route.children.length > 0) {
+          const children = generateMenus(route.children, currentKeys);
+          if (children.length > 0) {
+            menuItem.children = children;
+          }
         }
+
+        return menuItem;
       }
-      return menu
-    }
-  })
-}
-const menus = generateMenus(routes)
+    })
+    .flat()
+    .filter((item) => item !== []); // 使用 flat() 展平数组并过滤掉空数组
+};
+
+const menus = generateMenus(routes);
+
+console.log(menus);
 
 /**
  * Returns the default current key from the given routes.
@@ -49,14 +75,14 @@ const menus = generateMenus(routes)
  * @return {String} The default current key.
  */
 const getDefaultCurrentKay = (routes) => {
-  routes.forEach(route => {
+  routes.forEach((route) => {
     if (!route.redirect) {
-      return route.path
+      return route.path;
     } else {
-      return getDefaultCurrentKay(route.children)
+      return getDefaultCurrentKay(route.children);
     }
-  })
-}
+  });
+};
 const currentKey = ref([getDefaultCurrentKay(routes)]);
 
 /**
@@ -71,8 +97,8 @@ const currentKey = ref([getDefaultCurrentKay(routes)]);
  */
 const handleClick = ({ item, key, keyPath }) => {
   if (item?.meta?.newPage === true) {
-    const routeData = router.resolve({ path: key })
-    window.open(routeData.href, '_blank')
+    const routeData = router.resolve({ path: key });
+    window.open(routeData.href, "_blank");
   } else {
     router.push(key);
   }
