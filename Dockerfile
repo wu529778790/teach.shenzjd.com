@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 # 复制package.json和package-lock.json到工作目录
 COPY package*.json ./
 # 复制pnpm-lock.yaml到工作目录
-COPY pnpm-lock.yaml ./
+# COPY pnpm-lock.yaml ./
 
 # 复制项目源代码到工作目录, 排除掉src/client下的文件
 COPY src/server ./src/server
@@ -16,8 +16,6 @@ COPY dist ./dist
 
 # 安装项目依赖
 RUN npm install pnpm -g
-# 清理缓存
-RUN pnpm store prune
 # 使用pnpm安装生产依赖
 RUN pnpm install
 
