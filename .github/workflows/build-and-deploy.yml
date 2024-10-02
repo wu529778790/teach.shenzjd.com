@@ -35,7 +35,7 @@ jobs:
       - name: 获取并递增版本号
         id: version
         run: |
-          NEW_VERSION=$(echo $(cat VERSION) | awk -F. '{printf("%d.%d.%d\n",$1,$2,$3+1)}')
+          NEW_VERSION=$(node -p "require('./package.json').version.split('.').slice(0,3).join('.') + '.' + (parseInt(require('./package.json').version.split('.')[3]) + 1)")
           echo "::set-output name=new-version::$NEW_VERSION"
 
       - name: 设置Docker Buildx
@@ -58,12 +58,12 @@ jobs:
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
         run: |
-          echo ${{ steps.version.outputs.new-version }} > VERSION
+          echo ${{ steps.version.outputs.new-version }} > package.json
           git config --global user.name 'wu529778790'
           git config --global user.email '529778790@qq.com'
           git remote set-url origin https://${GIT_TOKEN}@github.com/${{ github.repository }}
           git pull
-          git add VERSION
+          git add package.json
           git commit -m "chore: bump version to ${{ steps.version.outputs.new-version }}"
           git push
           git push origin --tags
