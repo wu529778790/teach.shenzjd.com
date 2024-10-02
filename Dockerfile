@@ -11,7 +11,7 @@ COPY package*.json ./
 COPY pnpm-lock.yaml ./
 
 # 安装编译工具
-RUN apk add autoconf automake libtool build-base zlib-dev
+RUN apk add autoconf automake libtool build-base zlib-dev nasm yasm
 
 # 安装项目依赖
 RUN npm install pnpm -g
