@@ -7,11 +7,11 @@ WORKDIR /usr/src/app
 # 复制package.json和package-lock.json到工作目录
 COPY package*.json ./
 
-# 安装pnpm
-RUN npm install -g pnpm --no-cache --progress=plain
+# 清除npm缓存
+RUN npm cache clean --force
 
-# 使用pnpm安装生产依赖
-RUN pnpm install --no-cache --progress=plain
+# 安装项目依赖
+RUN npm install --no-cache --progress=plain
 
 # 复制项目源代码到工作目录, 排除掉src/client下的文件
 COPY src/server ./src/server
