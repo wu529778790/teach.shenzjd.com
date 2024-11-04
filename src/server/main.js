@@ -19,8 +19,8 @@ app.use("/api", router);
 
 router.use("/puppeteer", puppeteer);
 
-const server = app.listen(3000, "0.0.0.0", () => {
-  console.log("Click here to open the browser: http://localhost:3000");
+const server = app.listen(80, "0.0.0.0", () => {
+  console.log("Click here to open the browser: http://localhost:80");
 });
 
 ViteExpress.bind(app, server);
